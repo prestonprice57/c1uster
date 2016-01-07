@@ -121,9 +121,49 @@
 
 
 
+        } else if (scroll > 800 && scroll < 1200) {
+
+          bucketPlacement(bucketSize);
+
+          paper.forEach(function (el) {
+
+          var mString = createBarGraph(el, 800);
+          el.transform(mString);
+
+          });
+        
         }
       });
 
+      function updateBarGraph(el) {
+
+        for (var j = 0; j < buckets.length; j++) {
+
+          var endX = buckets[j].x;
+          var endY = buckets[j].yEnd;
+
+          buckets[j].x +=15;
+
+
+          var retString = "T" + endX +"," + endY;
+
+          if (buckets[j].x >= buckets[j].xEnd) {
+                console.log("We are reverting the buckets start");
+                buckets[j].x = buckets[j].xStart;
+                buckets[j].yEnd -= 15;
+
+          }
+
+          return retString;
+
+        }
+
+
+
+
+
+
+      }
       function createBarGraph(el, scroll) {
 
         console.log("We have entered the createbarGraph funciton");
@@ -141,6 +181,7 @@
 
               var scrollPercentage = (scroll-200) / 600;
               
+
               var endX = buckets[j].x;
               var endY = buckets[j].yEnd;
 
