@@ -155,9 +155,12 @@
 
               console.log("Buckets[j] x is now : " + buckets[j].x);
 
+<<<<<<< HEAD
               buckets[j]["x"] += 15;
               console.log("Buckets[j] x is now : " + buckets[j].x);
-             
+=======
+              buckets[j].x += 5;
+>>>>>>> 74dcd64440bad96083c4467d6771adbb8940c8f7
 
 
               if (currentX < buckets[j].xStart) {
@@ -217,8 +220,13 @@
           buckets[i].x = startOfNewBucket;
           buckets[i].xStart = startOfNewBucket;
           buckets[i].xEnd = startOfNewBucket + bucketLength;
+<<<<<<< HEAD
           buckets[i].yEnd = 850;
           startOfNewBucket += (bucketLength + padding);
+
+=======
+>>>>>>> 74dcd64440bad96083c4467d6771adbb8940c8f7
+
 
         }
 
