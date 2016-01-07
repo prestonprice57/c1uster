@@ -33,7 +33,7 @@ console.log('Magic happens on port ' + port);
   // so this can run with arguments 
   // they will be the second through whatever arguments in the brackets
   
-var pyshell = new PythonShell('sample.py', {mode : 'json', args: []});
+var pyshell = new PythonShell('sample.py', {mode : 'text', args: []});
 
  console.log("hi1");
 pyshell.on('message', function (message) {
