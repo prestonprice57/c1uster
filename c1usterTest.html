@@ -45,7 +45,7 @@
 
             var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
 
-            for (var i = 1; i < 1000; i++) {
+            for (var i = 1; i < 5; i++) {
 
 
 
@@ -98,7 +98,6 @@
 
       scroll = scroll / (($(window).width()) / 1300);
 
-      console.log("Scroll is: " + scroll);
       // Do something
 
 
@@ -112,7 +111,6 @@
 
           paper.forEach(function (el) {
 
-          console.log("The id is : " + el.id);
           var tString = createBarGraph(el, scroll);
 
           el.transform(tString);
@@ -123,52 +121,63 @@
 
 
 
-        } else if (scroll > 800 && scroll < 1200) {
+        } else if (scroll > 800 && scroll < 1100) {
 
           bucketPlacement(bucketSize);
 
           paper.forEach(function (el) {
 
-          var mString = createBarGraph(el, 800);
+          var mString = updateBarChart(el, 800);
           el.transform(mString);
 
           });
         
         }
-      });
 
-      function updateBarGraph(el) {
+        else if (scroll > 1100 && scroll < 1250) {
 
-        for (var j = 0; j < buckets.length; j++) {
+          paper.forEach(function (el) {
 
-          var endX = buckets[j].x;
-          var endY = buckets[j].yEnd;
+          var mString = comeTogether(el, scroll);
+          el.transform(mString);
 
-          buckets[j].x +=8;
-
-
-          var retString = "T" + endX +"," + endY;
-
-          if (buckets[j].x >= buckets[j].xEnd) {
-                console.log("We are reverting the buckets start");
-                buckets[j].x = buckets[j].xStart;
-                buckets[j].yEnd -= 8;
-
-          }
-
-          return retString;
-
+          });
+        
         }
 
+        
+      });
+
+     
 
 
 
+      function comeTogether(el, scroll) {
+        var bigCircle = paper.circle(500, 1600, 40);
+        var boriginX = el.data("barX");
+        var boriginY = el.data("barY");
+
+        console.log("origin X is : " + boriginX + " origin Y is : " + boriginY);
+        var scrollPercentage = (scroll - 1100)/  150;
+
+        var bendX = 0;
+
+        var bendY = 0;
+
+        var currX = (bendX - boriginX) * scrollPercentage;
+
+        var currY = (bendY - boriginY) * scrollPercentage;
+
+
+
+        var retString = "T" + currX + ", " + currY;
+        console.log("Return string is: " + retString);
+        return retString;
 
 
       }
       function createBarGraph(el, scroll) {
 
-        console.log("We have entered the createbarGraph funciton");
 
           //console.log("X is: " + buckets[i].x);
           //console.log(buckets[i].color);
@@ -196,10 +205,8 @@
               var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
 
-              console.log("Buckets[j] x is now : " + buckets[j].x);
 
               buckets[j]["x"] += 10;
-              console.log("Buckets[j] x is now : " + buckets[j].x);
              
 
 
@@ -211,7 +218,6 @@
 
 
               if (buckets[j].x >= buckets[j].xEnd) {
-                console.log("We are reverting the buckets start");
                 buckets[j].x = buckets[j].xStart;
                 buckets[j].yEnd -= 10;
 
@@ -231,6 +237,71 @@
 
       }
 
+
+      function updateBarChart(el, scroll) {
+
+
+          //console.log("X is: " + buckets[i].x);
+          //console.log(buckets[i].color);
+          for (var j = 0; j < buckets.length; j++) {
+            if (buckets[j].color == el.name) {
+              //console.log("The x value is: " + el.attr("x"));
+              var originX = el.data("originX");
+              var originY = el.data("originY");
+
+              //console.log("Origins" + originX);
+
+
+              var scrollPercentage = (scroll-200) / 600;
+              
+
+              var endX = buckets[j].x;
+              var endY = buckets[j].yEnd;
+
+              //console.log("Ends" + endY);
+
+              //console.log("ScrollPercentage" + scrollPercentage);
+
+              var currentX = (endX - originX) * scrollPercentage;
+
+              var currentY = (endY - originY) * scrollPercentage;
+              // we have a start X and Y --> we need to store this
+
+              el.data("barX", currentX);
+              el.data("barY", currentY);
+
+              console.log("BAR X IS : " + el.data("barX"));
+
+              buckets[j]["x"] += 10;
+             
+
+
+              if (currentX < buckets[j].xStart) {
+
+
+              var retString = "T" + currentX +"," + currentY;
+
+
+
+              if (buckets[j].x >= buckets[j].xEnd) {
+                buckets[j].x = buckets[j].xStart;
+                buckets[j].yEnd -= 10;
+
+              }
+
+              return retString;
+
+            } else {
+              return "";
+            }
+            }
+          }
+        
+
+
+
+
+      }
       function bucketPlacement(numBuckets) {
 
 
