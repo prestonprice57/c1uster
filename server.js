@@ -4,6 +4,7 @@ var app            = express();
 var mongoose       = require('mongoose');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
+var PythonShell = require('python-shell');
 
 // configuration ===========================================
 	
@@ -12,7 +13,7 @@ var db = require('./config/db');
 
 var port = process.env.PORT || 8080; // set our port
 // mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
-
+ 
 // get all data/stuff of the body (POST) parameters
 app.use(bodyParser.json()); // parse application/json 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
@@ -26,5 +27,21 @@ require('./app/routes')(app); // pass our application into our routes
 
 // start app ===============================================
 app.listen(port);	
-console.log('Magic happens on port ' + port); 			// shoutout to the user
-exports = module.exports = app; 						// expose app
+  console.log("hi5");
+console.log('Magic happens on port ' + port); 
+  console.log("hi4");	
+var pyshell = new PythonShell('sample.py', {mode : 'json'});
+
+ console.log("hi1");
+/*shell.on('message', function (message) {
+	  console.log(message);  
+	  console.log("hi");
+	});		// shoutout to the user*/
+  console.log("hi2");
+
+pyshell.end(function (err) {
+  if (err) throw err;
+  console.log('finished');
+});
+
+exports = module.exports = app;
