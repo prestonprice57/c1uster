@@ -26,7 +26,7 @@
     <script src="js/raphael-min.js"></script>
 </head>
 
-<body>
+<body ng-app="customerApp" ng-controller="customerController">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h1></h1>
-                <div id="canvas" style="padding-left:12%; height:500%" > </div>
+                <div id="canvas" style="height:200%" > </div>
             </div>
         </div>
         <!-- /.row -->
@@ -71,16 +71,30 @@
     <!-- Page Pop-Ups -->
     <div class="modal fade" id="filterModal" role="dialog">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content modal-custom">
           <form class="form-horizontal" role="form">
             <div class="modal-header">
               <h4>Filter Clusters</h4>
             </div>
             <div class="modal-body">
               <p>Select from the following filters below</p>
-              <a href="https://www.linkedin.com/in/jacksontdavis"><i class="fa fa-linkedin-square fa-2x"></i></a>
             </div>
+            <div class="form-group">
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.income"> Income
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
+                </label>
+            </div>
+            <pre>
+              {{ customerData }}
+            </pre>
             <div class="modal-footer">
+              <button type="submit" class="btn btn-icon btn-md">Send Away!</button>
               <a class="btn btn-icon" data-dismiss="modal">Close</a>
             </div>
         </div>
