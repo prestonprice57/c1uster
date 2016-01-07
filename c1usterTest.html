@@ -153,7 +153,7 @@
               // we have a start X and Y --> we need to store this
 
 
-              buckets[j]["x"] += 5;
+              buckets[j].x += 5;
 
 
               if (currentX < buckets[j].xStart) {
@@ -214,7 +214,7 @@
 
           buckets[i].x = startOfNewBucket;
           buckets[i].xStart = startOfNewBucket;
-          buckets[i].xEnd = endOfBucket;
+          buckets[i].xEnd = startOfNewBucket + bucketLength;
 
 
         }
