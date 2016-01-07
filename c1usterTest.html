@@ -27,12 +27,13 @@
        buckets = [];
        
 
-       function Bucket(x, y, color, xStart, xEnd) {
+       function Bucket(x, y, color, xStart, xEnd, yEnd) {
         this.x = x;
         this.y = y;
         this.color = color;
         this.xStart = xStart;
         this.xEnd = xEnd;
+        this.yEnd = yEnd;
        }
 
        function drawPlot() {
@@ -44,7 +45,7 @@
 
             var colors = ['red', 'blue', 'green', 'black'];
 
-            for (var i = 1; i < 500; i++) {
+            for (var i = 1; i < 50; i++) {
 
 
 
@@ -69,7 +70,7 @@
               }
 
               if (check) {
-                var k = new Bucket(0,850, colors[color], 0, 0);
+                var k = new Bucket(0,850, colors[color], 0, 0, 850);
                 buckets.push(k);
               }
 
@@ -122,48 +123,29 @@
         }
       });
 
-      Element[proto].moveTo = function(x, y){ 
-            switch (this.type) { 
-                    case "path": 
-                            var path = pathToRelative(this.attrs.path), 
-                                    dim = pathDimensions(path), 
-                                    dx = (path[0][1] - dim.x) + x, 
-                                    dy = (path[0][2] - dim.y) + y; 
-                            path[0][1] = dx; 
-                            path[0][2] = dy; 
-                            return this.attr({path: path}); 
-                            break; 
-                    default: 
-                            return this.attr({x: x, y: y}); 
-                    break; 
-            } 
-            return this; 
-    }; 
-
       function createBarGraph(el, scroll) {
 
         console.log("We have entered the createbarGraph funciton");
-        for (var i = 0; i < bucketSize; i++) {
 
-          console.log("X is: " + buckets[i].x);
-          console.log(buckets[i].color);
+          //console.log("X is: " + buckets[i].x);
+          //console.log(buckets[i].color);
           for (var j = 0; j < buckets.length; j++) {
             if (buckets[j].color == el.name) {
-              console.log("The x value is: " + el.attr("x"));
+              //console.log("The x value is: " + el.attr("x"));
               var originX = el.data("originX");
               var originY = el.data("originY");
 
-              console.log("Origins" + originX);
+              //console.log("Origins" + originX);
 
 
               var scrollPercentage = (scroll-200) / 600;
               
               var endX = buckets[j].x;
-              var endY = buckets[j].y;
+              var endY = buckets[j].yEnd;
 
-              console.log("Ends" + endX);
+              //console.log("Ends" + endY);
 
-              console.log("ScrollPercentage" + scrollPercentage);
+              //console.log("ScrollPercentage" + scrollPercentage);
 
               var currentX = (endX - originX) * scrollPercentage;
 
@@ -171,6 +153,7 @@
               // we have a start X and Y --> we need to store this
 
 
+              buckets[j].x = buckets[j].x + 5;
 
 
               if (currentX < buckets[j].xStart) {
@@ -179,11 +162,11 @@
               var retString = "T" + currentX +"," + currentY;
 
 
-              buckets[j].x += 5;
+              console.log("Buckets[j] x is now : " + buckets[j].x);
 
               if (buckets[j].x >= buckets[j].xEnd) {
                 buckets[j].x = buckets[j].xStart;
-                buckets[j].y++;
+                buckets[j].y-=5;
 
               }
 
@@ -194,7 +177,7 @@
             }
             }
           }
-        }
+        
 
 
 
