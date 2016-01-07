@@ -1,45 +1,310 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<base href="/">
+    <meta charset="UTF-8">
+    <base href="/">
 
-	<title>Starter Node and Angular</title>
+    <title>c1uster</title>
 
-	<!-- CSS -->
-	<link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
 
-	<!-- JS -->
-	<script src="libs/angular/angular.min.js"></script>
-	<script src="libs/angular-route/angular-route.min.js"></script>
+    <!-- JS -->
+    <script src="libs/angular/angular.min.js"></script>
+    <script src="libs/angular-route/angular-route.min.js"></script>
 
-	<!-- ANGULAR CUSTOM -->
-	<script src="js/controllers/MainCtrl.js"></script>
-	<script src="js/controllers/NerdCtrl.js"></script>
-	<script src="js/services/NerdService.js"></script>
-	<script src="js/controllers/GeekCtrl.js"></script>
-	<script src="js/services/GeekService.js"></script>
-	<script src="js/appRoutes.js"></script>
-	<script src="js/app.js"></script>
+    <!-- ANGULAR CUSTOM -->
+    <script src="js/controllers/MainCtrl.js"></script>
+    <script src="js/controllers/NerdCtrl.js"></script>
+    <script src="js/services/NerdService.js"></script>
+    <script src="js/controllers/GeekCtrl.js"></script>
+    <script src="js/services/GeekService.js"></script>
+    <script src="js/appRoutes.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/raphael-min.js"></script>
 </head>
-<body ng-app="sampleApp" ng-controller="NerdController">
-<div class="container">
-	
-	<!-- HEADER -->
-	<nav class="navbar navbar-inverse">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/">Stencil: Node and Angular</a>
-		</div>
-		<ul class="nav navbar-nav">
-			<li><a href="/nerds">Nerds</a></li>
-			<li><a href="/geeks">Geeks</a></li>
-		</ul>
-	</nav>
 
-	<!-- ANGULAR DYNAMIC CONTENT -->
-	<div ng-view></div>
+<body>
 
-</div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">c1uster</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <li><a href="#filterModal" data-toggle="modal">Filters</a></li>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1></h1>
+                <div id="canvas" style="padding-left:12%; height:500%" > </div>
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Page Pop-Ups -->
+    <div class="modal fade" id="filterModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form class="form-horizontal" role="form">
+            <div class="modal-header">
+              <h4>Filter Clusters</h4>
+            </div>
+            <div class="modal-body">
+              <p>Select from the following filters below</p>
+              <a href="https://www.linkedin.com/in/jacksontdavis"><i class="fa fa-linkedin-square fa-2x"></i></a>
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-icon" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+          <script>
+
+
+       $(document).ready(function() {
+          drawPlot();
+      });
+
+       bucketSize = 0;
+       buckets = [];
+       
+
+       function Bucket(x, y, color, xStart, xEnd, yEnd) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.xStart = xStart;
+        this.xEnd = xEnd;
+        this.yEnd = yEnd;
+       }
+
+       function drawPlot() {
+            // This is the base paper. Width will be 1000 px and Height will be 3000 px
+            paper = Raphael(document.getElementById('canvas'), '85%','50%');
+
+            paper.setViewBox(0,0, 700, 2500, true);
+
+
+            var colors = ['red', 'blue', 'green', 'black'];
+
+            for (var i = 1; i < 50; i++) {
+
+
+
+              var color = Math.round(3 * Math.random());
+
+              var x = Math.round(1200 * Math.random()) ;
+
+              var y = Math.round(300 * Math.random()) + 100;
+
+              var circle = paper.circle(x,y, 3).attr({'fill':colors[color], 'stroke-opacity' : '0'});
+              circle.id = i;
+              circle.name = colors[color];
+
+              circle.data("originX", x);
+              circle.data("originY", y);
+
+              var check = true;
+              for (var j = 0; j < buckets.length; j++) {
+                if (buckets[j].color == colors[color]) {
+                  check = false;
+                }
+              }
+
+              if (check) {
+                var k = new Bucket(0,850, colors[color], 0, 0, 850);
+                buckets.push(k);
+              }
+
+
+            }
+
+            bucketSize = buckets.length;
+
+            bucketPlacement(bucketSize);
+
+
+
+          
+      }
+
+
+      $(window).scroll(function (event) {
+
+      var scroll = $(window).scrollTop();
+      // scroll is pixel offset from top
+
+      // we want scroll to scale to screen height  : less height = more scroll
+
+      scroll = scroll / (($(window).height())/700);
+
+      console.log("Scroll is: " + scroll);
+      // Do something
+
+
+
+        if (scroll > 200 && scroll < 800) {
+
+
+          //console.log("Bucket size is : " + bucketSize);
+
+
+          paper.forEach(function (el) {
+
+          
+          var tString = createBarGraph(el, scroll);
+
+          el.transform(tString);
+
+          //console.log(tString);
+          
+          });
+
+
+
+        }
+      });
+
+      function createBarGraph(el, scroll) {
+
+        console.log("We have entered the createbarGraph funciton");
+
+          //console.log("X is: " + buckets[i].x);
+          //console.log(buckets[i].color);
+          for (var j = 0; j < buckets.length; j++) {
+            if (buckets[j].color == el.name) {
+              //console.log("The x value is: " + el.attr("x"));
+              var originX = el.data("originX");
+              var originY = el.data("originY");
+
+              //console.log("Origins" + originX);
+
+
+              var scrollPercentage = (scroll-200) / 600;
+              
+              var endX = buckets[j].x;
+              var endY = buckets[j].yEnd;
+
+              //console.log("Ends" + endY);
+
+              //console.log("ScrollPercentage" + scrollPercentage);
+
+              var currentX = (endX - originX) * scrollPercentage;
+
+              var currentY = (endY - originY) * scrollPercentage;
+              // we have a start X and Y --> we need to store this
+
+
+              buckets[j].x = buckets[j].x + 5;
+
+
+              if (currentX < buckets[j].xStart) {
+
+
+              var retString = "T" + currentX +"," + currentY;
+
+
+              console.log("Buckets[j] x is now : " + buckets[j].x);
+
+              if (buckets[j].x >= buckets[j].xEnd) {
+                buckets[j].x = buckets[j].xStart;
+                buckets[j].y-=5;
+
+              }
+
+              return retString;
+
+            } else {
+              return "";
+            }
+            }
+          }
+        
+
+
+
+
+      }
+
+      function bucketPlacement(numBuckets) {
+
+
+        var bucketLength = (700 / numBuckets);
+
+        bucketLength = bucketLength - 10;
+
+        //console.log("Bucket length is : " + bucketLength);
+
+        var startOfNewBucket = 0;
+
+        var padding = 10;
+
+        for (var i = 0; i < numBuckets; i++) {
+
+          // start and end point of path
+
+          // y is constant
+          // x is variable based on both padding & size of bucket
+
+          var endOfBucket = startOfNewBucket+bucketLength;
+
+          var pathName = "M" + startOfNewBucket + ",850 L" + endOfBucket + ", 850";
+
+          var bucketBase = paper.path(pathName);
+
+          startOfNewBucket += (bucketLength + padding);
+
+          buckets[i].x = startOfNewBucket;
+          buckets[i].xStart = startOfNewBucket;
+          buckets[i].xEnd = endOfBucket;
+
+
+        }
+
+
+
+      }
+
+
+
+
+       </script>
+
 </body>
+
 </html>
