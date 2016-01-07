@@ -45,7 +45,7 @@
 
             var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
 
-            for (var i = 1; i < 200; i++) {
+            for (var i = 1; i < 1000; i++) {
 
 
 
@@ -55,7 +55,7 @@
 
               var y = Math.round(300 * Math.random()) + 100;
 
-              var circle = paper.circle(x,y, 3).attr({'fill':colors[color], 'stroke-opacity' : '0'});
+              var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0'});
               circle.id = i;
               circle.name = colors[color];
 
@@ -70,7 +70,7 @@
               }
 
               if (check) {
-                var k = new Bucket(0,850, colors[color], 0, 0, 850);
+                var k = new Bucket(0,850, colors[color], 0, 0, 1000);
                 buckets.push(k);
               }
 
@@ -95,6 +95,8 @@
       // we want scroll to scale to screen height  : less height = more scroll
 
       scroll = scroll / (($(window).height())/700);
+
+      scroll = scroll / (($(window).width()) / 1300);
 
       console.log("Scroll is: " + scroll);
       // Do something
@@ -142,7 +144,7 @@
           var endX = buckets[j].x;
           var endY = buckets[j].yEnd;
 
-          buckets[j].x +=15;
+          buckets[j].x +=8;
 
 
           var retString = "T" + endX +"," + endY;
@@ -150,7 +152,7 @@
           if (buckets[j].x >= buckets[j].xEnd) {
                 console.log("We are reverting the buckets start");
                 buckets[j].x = buckets[j].xStart;
-                buckets[j].yEnd -= 15;
+                buckets[j].yEnd -= 8;
 
           }
 
@@ -196,7 +198,7 @@
 
               console.log("Buckets[j] x is now : " + buckets[j].x);
 
-              buckets[j]["x"] += 15;
+              buckets[j]["x"] += 10;
               console.log("Buckets[j] x is now : " + buckets[j].x);
              
 
@@ -211,7 +213,7 @@
               if (buckets[j].x >= buckets[j].xEnd) {
                 console.log("We are reverting the buckets start");
                 buckets[j].x = buckets[j].xStart;
-                buckets[j].yEnd -= 15;
+                buckets[j].yEnd -= 10;
 
               }
 
@@ -258,7 +260,7 @@
           buckets[i].x = startOfNewBucket;
           buckets[i].xStart = startOfNewBucket;
           buckets[i].xEnd = startOfNewBucket + bucketLength;
-          buckets[i].yEnd = 850;
+          buckets[i].yEnd = 1000;
           startOfNewBucket += (bucketLength + padding);
 
         }
