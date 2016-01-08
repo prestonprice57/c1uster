@@ -178,28 +178,42 @@
 
 
   }
-/*
-       function getZipCode() {
-        var lat = '';
-        var lng = '';
-        var address = {zipcode} or {city and state};
-        geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-         lat = results[0].geometry.location.lat();
-         lng = results[0].geometry.location.lng();
+
+function onHover() {
+        var str = "Wow these nodes are " + this.data("color");
+        box = paper.rect(this.getBBox().x, this.getBBox().y, 80, 30, 8);
+        box.attr({'fill':'#2956b2', 'stroke': '#000066', 'fill-opacity':'0.8', 'stroke-width':'2'});
+
+        box.show();
+
+        var color = this.data("color");
+
+        paper.forEach(function (el) {
+          if (el.data("color") != color) {
+            el.attr("fill-opacity", 0.22);
+
+          } else {
+            console.log("The color is: " + el.data('color'));
+            el.attr('stroke',el.data('color'));
+            el.attr('stroke-width','5');
+            el.attr('stroke-opacity', '1.0');
+          }
+              
         });
-      } else {
-        alert("Geocode was not successful for the following reason: " + status);
+
+        //paper.text(this.data("originX"), this.data("originY"), str);
+                 
       }
-    });
-    alert('Latitude: ' + lat + ' Logitude: ' + lng);
+            
+      function onOut() {
+        box.hide();
 
-       }
-       */
+        paper.forEach(function (el) {
 
-       
-
-
+          el.attr("fill-opacity", 1.0);    
+          el.attr('stroke-opacity', '0');  
+        });
+      }
 
 
       function drawPlot() {
@@ -235,7 +249,8 @@
               //var circle = paper.circle(x,y, 2).attr({'fill':'white', 'stroke-opacity' : '0'});
               circle.id = i;
               circle.name = colors[color];
-
+              circle.mouseover(onHover);
+              circle.mouseout(onOut);
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
@@ -448,6 +463,8 @@ function makeMap(el, scroll) {
                 circle.data("color", barPoints[i].color);
                 circle.data("lat", barPoints[i].lat);
                 circle.data("longi", barPoints[i].longi);
+                circle.mouseover(onHover);
+                circle.mouseout(onOut);
 
                 console.log("Just created a new circle!");
 
