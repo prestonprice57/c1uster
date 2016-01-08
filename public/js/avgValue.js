@@ -1,0 +1,1 @@
+var avgValue = {"3": {"age": "36.86", "degree": "0.43", "averageTimeToPayBill": "32.55"}, "1": {"age": "39.9", "degree": "0.52", "averageTimeToPayBill": "3.63"}, "0": {"age": "28.9", "degree": "0.53", "averageTimeToPayBill": "3.56"}, "2": {"age": "54.15", "degree": "0.68", "averageTimeToPayBill": "5.6"}, "4": {"age": "31.84", "degree": "0.56", "averageTimeToPayBill": "15.3"}};

@@ -5,6 +5,7 @@ var mongoose       = require('mongoose');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var PythonShell = require('python-shell');
+//var exec = require('child_process').exec;
 
 // configuration ===========================================
 	
@@ -27,24 +28,7 @@ require('./app/routes')(app); // pass our application into our routes
 
 // start app ===============================================
 app.listen(port);	
-  console.log("hi5");
+
 console.log('Magic happens on port ' + port); 
-  console.log("hi4");	
-  // so this can run with arguments 
-  // they will be the second through whatever arguments in the brackets
-  
-var pyshell = new PythonShell('sample.py', {mode : 'text', args: []});
-
-console.log("hi1");
-pyshell.on('message', function (message) {
-    console.log(message);  
-    console.log("hi0");
-  });   // shoutout to the user*/
-  console.log("hi2");
-
-pyshell.end(function (err) {
-  if (err) throw err;
-  console.log('finished');
-});
-
+console.log("Server running");
 exports = module.exports = app;

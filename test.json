@@ -13838,7 +13838,7 @@
     },
     {
       "_id": "56241a14de4bf40b17112f02",
-      "balance": 18252.7,
+      "balance": 17825.05000000001,
       "customer_id": "56241a13de4bf40b1711224d",
       "nickname": "Arely's Account",
       "rewards": 23287,
@@ -14494,7 +14494,7 @@
     },
     {
       "_id": "56241a14de4bf40b17112f54",
-      "balance": 15120,
+      "balance": 15186,
       "customer_id": "56241a13de4bf40b17112270",
       "nickname": "Carrol's Account",
       "rewards": 29396,
@@ -14518,7 +14518,7 @@
     },
     {
       "_id": "56241a14de4bf40b17112f57",
-      "balance": 48883,
+      "balance": 48817,
       "customer_id": "56241a13de4bf40b17112271",
       "nickname": "Arleen's Account",
       "rewards": 17379,
@@ -20226,7 +20226,7 @@
     },
     {
       "_id": "568ee77c3921211200ef2115",
-      "balance": 100,
+      "balance": 2122.0,
       "customer_id": "56241a13de4bf40b1711224d",
       "nickname": "Carrot Savings",
       "rewards": 0,
@@ -20269,6 +20269,102 @@
       "_id": "568f038c3921211200ef2125",
       "balance": 100,
       "customer_id": "568f038c3921211200ef2124",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f1f673921211200ef214f",
+      "balance": 100,
+      "customer_id": "568f1f673921211200ef214e",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f44bd3921211200ef2177",
+      "balance": 100,
+      "customer_id": "568f44bd3921211200ef2176",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f44bd3921211200ef2178",
+      "balance": 100,
+      "customer_id": "568f44bd3921211200ef2175",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4aa03921211200ef2184",
+      "balance": 100,
+      "customer_id": "568f4a9f3921211200ef2183",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef218e",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef2189",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef218f",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef218a",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef2190",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef218b",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef2191",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef2188",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef2192",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef218c",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc63921211200ef2193",
+      "balance": 100,
+      "customer_id": "568f4cc63921211200ef218d",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f4cc73921211200ef2195",
+      "balance": 100,
+      "customer_id": "568f4cc73921211200ef2194",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f511e3921211200ef2198",
+      "balance": 100,
+      "customer_id": "568f511e3921211200ef2197",
       "nickname": "nickname",
       "rewards": 0,
       "type": "Credit Card"

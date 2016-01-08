@@ -225,7 +225,6 @@ function geocodeAddress(geocoder, address) {
 
         } else if (scroll > 800 && scroll < 1100) {
 
-          bucketPlacement(bucketSize);
 
           if (notClearedChart) {
             
@@ -233,10 +232,10 @@ function geocodeAddress(geocoder, address) {
             clearData(notClearedChart);
             notClearedChart = false;
 
-            }
-            
           }
           
+        
+        } 
 
         else if (scroll >= 1100 && scroll < 1400) {
           //bucketPlacement(bucketSize);
@@ -319,6 +318,7 @@ function geocodeAddress(geocoder, address) {
         barPoints = [];
 
         paper.forEach(function (el) {
+
             var mString = updateBarChart(el, 800);
             el.transform(mString);
             //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
@@ -348,7 +348,7 @@ function geocodeAddress(geocoder, address) {
 
               console.log("Just created a new circle!");
             
-            }
+
       }
 
       function comeTogether(el, scroll) {
@@ -489,6 +489,9 @@ function geocodeAddress(geocoder, address) {
 
               el.data("barX", endX);
               el.data("barY", endY);
+
+              el.data("pathX", currentX);
+              el.data("pathY", currentY);
 
               console.log("BAR X IS : " + el.data("barX"));
 

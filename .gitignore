@@ -1,3 +1,5 @@
+envname
+venv
 /build/
 /benchpress-build/
 .DS_Store
