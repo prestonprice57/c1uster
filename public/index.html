@@ -151,7 +151,6 @@
   $(document).ready(function() {
           //initMap();
           drawPlot();
-          parseJsonTest();
         });
 
   bucketSize = 0;
@@ -179,21 +178,38 @@
 
   }
 
-function onHover() {
-        var str = "Wow these nodes are " + this.data("color");
-        box = paper.rect(this.getBBox().x, this.getBBox().y, 80, 30, 8);
-        box.attr({'fill':'#2956b2', 'stroke': '#000066', 'fill-opacity':'0.8', 'stroke-width':'2'});
 
+function onHover() {
+        box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 120, 8);
+        box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
+        box.type = "box";
         box.show();
 
         var color = this.data("color");
 
+
+        var textStr = "Group " + this.id + " features\n";
+
+        textFieldTitle = paper.text(this.getBBox().x+72, this.getBBox().y+40, textStr);
+        textFieldTitle.type = "text";
+        textFieldTitle.attr({'fill':'#FFFFFF'});
+        textFieldTitle.attr({ "font-size": 12, "font-family": "Ubuntu, sans-serif" });
+
+
+        var textStr2 = "";
+        for (card in dv[this.id]) {
+          textStr2 += card + " " + dv[this.id][card] + "%\n";
+        }
+
+        textFieldTitle = paper.text(this.getBBox().x+72, this.getBBox().y+85, textStr2);
+        textFieldTitle.type = "text";
+        textFieldTitle.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+
         paper.forEach(function (el) {
-          if (el.data("color") != color) {
+          if (el.data("color") != color && el.type != "text" && el.type != "box") {
             el.attr("fill-opacity", 0.22);
 
           } else {
-            console.log("The color is: " + el.data('color'));
             el.attr('stroke',el.data('color'));
             el.attr('stroke-width','3');
             el.attr('stroke-opacity', '1.0');
@@ -209,7 +225,7 @@ function onHover() {
             
       function onOut() {
         box.hide();
-
+        textField.hide();
         paper.forEach(function (el) {
 
           el.attr("fill-opacity", 1.0);    
@@ -273,6 +289,7 @@ function onHover() {
             paper.setViewBox(0,0, 700, 2500, true);
             //var bigCircle = paper.circle(500, 1000, 40);
 
+            textField = paper.text(0,0,"");
 
             var colors = ['#CF000F', '#663399', '#22A7F0', '#00B16A', '#F39C12', '#67809F', '#26A65B'];
 
@@ -288,17 +305,16 @@ function onHover() {
 
               var color = coordinates[i]["category"];
               var x = coordinates[i]["x"] * 10 + 400;
-              console.log("The x value is: " + x);
 
               var y = coordinates[i]["y"] * 5 + 180;
 
 
               var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0', 'stroke-width':'3'});
               //var circle = paper.circle(x,y, 2).attr({'fill':'white', 'stroke-opacity' : '0'});
-              circle.id = i;
+
+              var category = Math.floor(coordinates[i]["category"]);
+              circle.id = category;
               circle.name = colors[color];
-              circle.mouseover(onHover);
-              circle.mouseout(onOut);
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
@@ -320,6 +336,10 @@ function onHover() {
                   console.log("The index  for latlong pick is: " + latLongPicker);
                 }
               }
+              //var latLongPicker = Math.round(1455 * Math.random());
+              circle.mouseover(onHover);
+              circle.mouseout(onOut);
+
               //var latLongPicker = Math.round(1455 * Math.random());
               var lat = 1600 - parseFloat(loc[latLongPicker][0]);
               var lon = 2150 - parseFloat(loc[latLongPicker][1]);
@@ -506,7 +526,6 @@ function makeMap(el, scroll) {
                 el.transform(mString);
             //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
             if (rec) {
-              console.log("The bar X is: " + el.data('barX'));
               var k = new barPoint(el.data('barX'), el.data('barY'), el.data('lat'), el.data('longi'), el.data('color'));
               barPoints.push(k);
 
@@ -520,8 +539,6 @@ function makeMap(el, scroll) {
               paper.clear();
 
               for (var i = 0; i < barPoints.length; i++) {
-                console.log(barPoints[i].x);
-                console.log(barPoints[i].color);
                 var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
                 circle.data("x", barPoints[i].x);
                 circle.data("y", barPoints[i].y);
@@ -530,8 +547,10 @@ function makeMap(el, scroll) {
                 circle.data("longi", barPoints[i].longi);
                 circle.mouseover(onHover);
                 circle.mouseout(onOut);
+
                 circle.click(onClick);
                 console.log("Just created a new circle!");
+
 
               }
             }
@@ -575,7 +594,6 @@ function makeMap(el, scroll) {
 
 
 
-              console.log(retString);
 
               return retString;
 
@@ -675,7 +693,6 @@ function makeMap(el, scroll) {
               el.data("barX", endX);
               el.data("barY", endY);
 
-              console.log("BAR X IS : " + el.data("barX"));
 
 
               buckets[j]["x"] += 10;
