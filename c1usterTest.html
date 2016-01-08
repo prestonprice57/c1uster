@@ -60,7 +60,7 @@
 
             var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
 
-            for (var i = 1; i <300; i++) {
+            for (var i = 1; i <500; i++) {
 
 
 
@@ -168,6 +168,9 @@
               console.log(barPoints[i].x);
               console.log(barPoints[i].color);
               var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
+              circle.data("x", barPoints[i].x);
+              circle.data("y", barPoints[i].y);
+              circle.data("color", barPoints[i].color);
 
               console.log("Just created a new circle!");
 
@@ -186,7 +189,7 @@
         
         } 
 
-        else if (scroll >= 1100 && scroll < 1500) {
+        else if (scroll >= 1100 && scroll < 1400) {
           //bucketPlacement(bucketSize);
           //console.log("We are in the scroll 1100  - 1250");
 
@@ -194,8 +197,8 @@
           paper.forEach(function (el) {
 
           //console.log("The X coordinate is: " + el.data("barX") +", the Y coordinate is:  " + el.data('barY'));
-          el.attr({'x':el.attr('barX')});
-          el.attr({'y':el.attr('barY')});
+          //el.attr({'x':el.attr('barX')});
+          //el.attr({'y':el.attr('barY')});
           var togetherString = comeTogether(el, scroll);
           //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
@@ -204,6 +207,12 @@
 
           });
         
+        } else if (scroll >= 1400 && scroll < 1800) {
+
+
+
+
+
         }
 
         
@@ -211,7 +220,32 @@
 
      
 
+      
 
+      function clearData() {
+        paper.forEach(function (el) {
+
+            var mString = updateBarChart(el, 800);
+            el.transform(mString);
+            //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
+            console.log("The bar X is: " + el.data('barX'));
+            var k = new barPoint(el.data('barX'), el.data('barY'), 0, 0, el.data('color'));
+            barPoints.push(k);
+          });
+            paper.clear();
+
+            for (var i = 0; i < barPoints.length; i++) {
+              console.log(barPoints[i].x);
+              console.log(barPoints[i].color);
+              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
+              circle.data("x", barPoints[i].x);
+              circle.data("y", barPoints[i].y);
+              circle.data("color", barPoints[i].color);
+
+              console.log("Just created a new circle!");
+            
+
+      }
 
       function comeTogether(el, scroll) {
         //var bigCircle = paper.circle(500, 1600, 40);
@@ -220,21 +254,18 @@
               //console.log("The x value is: " + el.attr("x"));
 
 
-              var originX = el.data("originX");
-              var originY = el.data("originY");
-
-              var bX = el.data("barX");
-              var bY = el.data("barY");
+              var originX = el.data("x");
+              var originY = el.data("y");
 
 
               //console.log("Origins" + originX);
 
 
-              var scrollPercentage = (scroll-1100) / 400;
+              var scrollPercentage = (scroll-1100) / 300;
               
 
               var endX = 400;
-              var endY = 1600;
+              var endY = 1300;
 
               //console.log("Ends" + endY);
 
