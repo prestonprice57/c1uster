@@ -7,8 +7,8 @@ module.exports = function(app) {
 	// frontend routes =========================================================
 	// route to handle all angular requests
 	app.get('/', function(req, res) {
-	 
 		console.log("called here");
+
 		res.sendfile('./public/index.html');
 	});
 
@@ -17,6 +17,7 @@ module.exports = function(app) {
 		res.sendfile('./public/sampleJson.py');
 	}); 
 
-
-
+	app.post('/cluster', function(req, res) {
+		console.log(req.body);
+	});
 };

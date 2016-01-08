@@ -30,13 +30,16 @@ app.listen(port);
   console.log("hi5");
 console.log('Magic happens on port ' + port); 
   console.log("hi4");	
-var pyshell = new PythonShell('sample.py', {mode : 'json'});
+  // so this can run with arguments 
+  // they will be the second through whatever arguments in the brackets
+  
+var pyshell = new PythonShell('sample.py', {mode : 'text', args: []});
 
- console.log("hi1");
-/*shell.on('message', function (message) {
-	  console.log(message);  
-	  console.log("hi");
-	});		// shoutout to the user*/
+console.log("hi1");
+pyshell.on('message', function (message) {
+    console.log(message);  
+    console.log("hi0");
+  });   // shoutout to the user*/
   console.log("hi2");
 
 pyshell.end(function (err) {
