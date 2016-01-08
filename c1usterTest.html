@@ -104,6 +104,9 @@
       }
 
       var notCleared = true;
+      var repopulated = false;
+
+      var barPoints = [];
 
       $(window).scroll(function (event) {
 
@@ -144,15 +147,27 @@
 
           bucketPlacement(bucketSize);
 
-          paper.forEach(function (el) {
+          if (notCleared && !repopulated) {
+            paper.forEach(function (el) {
 
-          var mString = updateBarChart(el, 800);
-          el.transform(mString);
-          //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
+            var mString = updateBarChart(el, 800);
+            el.transform(mString);
+            //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
+            var k = new barPoint(el.attr('barX'), el.attr('barY'), 0, 0, el.attr('color'));
+            barPoints.append(k);
           });
 
-       
+
+          }
+          if (!repopulated) {
+
+
+            
+          }
+          
+
+          
 
 
 
@@ -198,7 +213,7 @@
 
               var bX = el.data("barX");
               var bY = el.data("barY");
-              
+
 
               //console.log("Origins" + originX);
 
