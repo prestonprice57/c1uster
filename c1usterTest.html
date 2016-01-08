@@ -76,7 +76,7 @@
 
               circle.data("originX", x);
               circle.data("originY", y);
-
+              circle.data("color", colors[color]);
 
 
               var check = true;
@@ -153,16 +153,28 @@
             var mString = updateBarChart(el, 800);
             el.transform(mString);
             //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
-
-            var k = new barPoint(el.attr('barX'), el.attr('barY'), 0, 0, el.attr('color'));
-            barPoints.append(k);
+            console.log("The bar X is: " + el.data('barX'));
+            var k = new barPoint(el.data('barX'), el.data('barY'), 0, 0, el.data('color'));
+            barPoints.push(k);
           });
+            paper.clear();
 
+            notCleared = false;
 
           }
           if (!repopulated) {
 
+            for (var i = 0; i < barPoints.length; i++) {
+              console.log(barPoints[i].x);
+              console.log(barPoints[i].color);
+              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
 
+              console.log("Just created a new circle!");
+
+
+
+            }
+            repopulated = true;
             
           }
           
