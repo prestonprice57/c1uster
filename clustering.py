@@ -299,7 +299,7 @@ dvString = dvFile.read()
 print('var dv =' + dvString + ';')
 dvFileJS = open("dv.js", 'w')
 
-dvFileJS.write('var dv =' + dvString + ';')
+dvFileJS.write('var coordinates =' + dvString + ';')
 dvFile.close()
 dvFileJS.close()
 
