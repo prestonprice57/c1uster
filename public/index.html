@@ -150,7 +150,6 @@
   $(document).ready(function() {
           //initMap();
           drawPlot();
-          parseJsonTest();
         });
   bucketSize = 0;
   buckets = [];
@@ -170,35 +169,59 @@
     this.color = color;
   }
 function onHover() {
-        var str = "Wow these nodes are " + this.data("color");
-        box = paper.rect(this.getBBox().x, this.getBBox().y, 80, 30, 8);
-        box.attr({'fill':'#2956b2', 'stroke': '#000066', 'fill-opacity':'0.8', 'stroke-width':'2'});
+        box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 120, 8);
+        box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
+        box.type = "box";
         box.show();
+
         var color = this.data("color");
+
+
+        var textStr = "Group " + this.data["fakeID"] + " features\n";
+
+        textFieldTitle = paper.text(this.getBBox().x+72, this.getBBox().y+40, textStr);
+        textFieldTitle.type = "text";
+        textFieldTitle.attr({'fill':'#FFFFFF'});
+        textFieldTitle.attr({ "font-size": 12, "font-family": "Ubuntu, sans-serif" });
+
+
+        var textStr2 = "";
+        for (card in dv[this.id]) {
+          textStr2 += card + " " + dv[this.data["fakeID"]][card] + "%\n";
+        }
+
+        textField = paper.text(this.getBBox().x+72, this.getBBox().y+85, textStr2);
+        textField.type = "text";
+        textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+
         paper.forEach(function (el) {
-          if (el.data("color") != color) {
+          if (el.data("color") != color && el.type != "text" && el.type != "box") {
             el.attr("fill-opacity", 0.22);
+
           } else {
-            console.log("The color is: " + el.data('color'));
             el.attr('stroke',el.data('color'));
-            el.attr('stroke-width','3');
+            el.attr('stroke-width','5');
             el.attr('stroke-opacity', '1.0');
           }
               
         });
-        this.attr('stroke-width', '3');
-        this.attr('stroke', '#fe000c');
+
         //paper.text(this.data("originX"), this.data("originY"), str);
                  
       }
-            
-      function onOut() {
+          
+function onOut() {
         box.hide();
+        textField.hide();
+        textFieldTitle.hide();
         paper.forEach(function (el) {
+
           el.attr("fill-opacity", 1.0);    
           el.attr('stroke-opacity', '0');  
         });
       }
+
+
       function onClick() {
         console.log("JUST CLICKED THIS THING");
         var curColor = this.data("color");
@@ -221,6 +244,8 @@ function onHover() {
           }
         });
       }
+
+
       function drawConnectingPath(originX, originY, endX, endY, color) {
         var travelled = "M" + originX +"," + originY + "L" + endX + "," + endY;
         console.log("the travelled path is: " + travelled);
@@ -249,6 +274,7 @@ function onHover() {
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
+              circle.data("fakeID", color);
               // set one will be 0 to 600
               // set two will be 200 to 800
               // set three will be 400 to 1000
