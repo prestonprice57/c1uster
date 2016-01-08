@@ -27,6 +27,10 @@
   <script src="js/dv.js"></script>
   <script src="js/coordinates.js"></script>
   <script src="js/raphael-min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 </head>
 
 <body ng-app="customerApp" ng-controller="customerController">
@@ -147,17 +151,13 @@
 
  <script>
   "use stricts";
-
   $(document).ready(function() {
           //initMap();
           drawPlot();
-          parseJsonTest();
+          drawChart();
         });
-
   bucketSize = 0;
   buckets = [];
-
-
   function Bucket(x, y, color, xStart, xEnd, yEnd) {
     this.x = x;
     this.y = y;
@@ -166,261 +166,289 @@
     this.xEnd = xEnd;
     this.yEnd = yEnd;
   }
-
   function barPoint(x, y, lat, longi, color) {
     this.x = x;
     this.y = y;
     this.lat = lat;
     this.longi = longi;
     this.color = color;
-
-
-
-
   }
-/*
-       function getZipCode() {
-        var lat = '';
-        var lng = '';
-        var address = {zipcode} or {city and state};
-        geocoder.geocode( { 'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-         lat = results[0].geometry.location.lat();
-         lng = results[0].geometry.location.lng();
+
+function onHover() {
+        box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 120, 8);
+        box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
+        box.type = "box";
+        box.show();
+
+
+        var fakeID = this.data("fakeID");
+        console.log(fakeID);
+        var textStr1 = "Group " + fakeID + " features";
+
+        textTitle = paper.text(this.getBBox().x+72, this.getBBox().y+40, textStr1);
+        textTitle.type = "text";
+        textTitle.attr({'fill':'#FFFFFF'});
+        textTitle.attr({ "font-size": 12, "font-family": "Ubuntu, sans-serif" });
+
+
+        var textStr2 = "";
+        for (card in dv[this.data("fakeID")]) {
+          textStr2 += card + " " + dv[this.data("fakeID")][card] + "%\n";
+        }
+
+        textField = paper.text(this.getBBox().x+72, this.getBBox().y+85, textStr2);
+        textField.type = "text";
+        textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+        //paper.text(this.data("originX"), this.data("originY"), str);
+
+        var colorem = this.data("color");
+        paper.forEach(function (el) {
+          if (el.data("color") !=  colorem && el.type != "text" && el.type != "box") {
+            el.attr("fill-opacity", 0.22);
+
+          } else {
+            el.attr('stroke',el.data('color'));
+            el.attr('stroke-width','5');
+            el.attr('stroke-opacity', '1.0');
+          }
+              
         });
-      } else {
-        alert("Geocode was not successful for the following reason: " + status);
+
+                       
       }
-    });
-    alert('Latitude: ' + lat + ' Logitude: ' + lng);
+          
+function onOut() {
+        box.hide();
+        textField.hide();
+        textFieldTitle.hide();
+        paper.forEach(function (el) {
 
-       }
-       */
-
-       function parseJsonTest() {
-        $.getJSON("test.json", function(json) {
-    console.log(json); // this will show the info it in firebug console
-  });
-
-
-
+          el.attr("fill-opacity", 1.0);    
+          el.attr('stroke-opacity', '0');  
+        });
       }
 
 
+      function onClick() {
+        console.log("JUST CLICKED THIS THING");
+        var curColor = this.data("color");
+        var originX = this.getBBox().x;
+        var originY = this.getBBox().y;
+        console.log("curColor is: " + curColor);
+        paper.forEach(function (el) {
+          if (el.data("color") == curColor) {
+
+            drawConnectingPath(el.getBBox().x, el.getBBox().y, originX, originY, curColor);
+
+            
+          }
+        });
+      }
+
+
+      function drawConnectingPath(originX, originY, endX, endY, color) {
+        var travelled = "M" + originX +"," + originY + "L" + endX + "," + endY;
+        console.log("the travelled path is: " + travelled);
+        var travelPath = paper.path(travelled).attr({'opacity':'0.15', 'stroke-width':'1', 'stroke':color});
+      }
 
 
       function drawPlot() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
-
             paper = Raphael(document.getElementById('canvas'), '85%','50%');
-
-
             paper.setViewBox(0,0, 700, 2500, true);
+
+            textTitle = paper.text(0,0,"");
+            textField = paper.text(0,0,"");
+            box = paper.rect(0,0,0,0,0);
+
             //var bigCircle = paper.circle(500, 1000, 40);
-
-
-            var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
-
-            for (var i = 1; i <1200; i++) {
-
-
-
-              var color = Math.round(6 * Math.random());
-
-              var x = Math.round(1200 * Math.random())  + 75;
-
-              var y = Math.round(300 * Math.random()) + 100;
-
-              var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0'});
+            var colors = ['#CF000F', '#663399', '#22A7F0', '#00B16A', '#F39C12', '#67809F', '#26A65B'];
+            for (var i = 1; i <coordinates.length; i = i + 10) {
+              //var color = Math.round(6 * Math.random());
+              //var x = Math.round(1200 * Math.random())  + 75;
+              //var y = Math.round(300 * Math.random()) + 100;
+              var color = coordinates[i]["category"];
+              var x = coordinates[i]["x"] * 10 + 400;
+              console.log("The x value is: " + x);
+              var y = coordinates[i]["y"] * 5 + 180;
+              var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0', 'stroke-width':'3'});
               //var circle = paper.circle(x,y, 2).attr({'fill':'white', 'stroke-opacity' : '0'});
               circle.id = i;
               circle.name = colors[color];
-
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
+              circle.data("fakeID", coordinates[i]["category"]);
 
-              var latLongPicker = Math.round(1455 * Math.random());
+              circle.mouseover(onHover);
+              circle.mouseout(onOut);
+              // set one will be 0 to 600
+              // set two will be 200 to 800
+              // set three will be 400 to 1000
+              // set four will be 600 to 1200
+              // set five will be 800 to 1400
+              for (var m = 0; m < 5; m++) {
+                console.log("The color valueis : " + color);
+                if (color == m) {
+                  //var upperBound = (m+1) *200 + 600;
+                  var lowerBound = (m) * 200;
+                  
+                  var latLongPicker = Math.round(600 * Math.random()) + lowerBound;
+                  console.log("The index  for latlong pick is: " + latLongPicker);
+                }
+              }
+              //var latLongPicker = Math.round(1455 * Math.random());
               var lat = 1600 - parseFloat(loc[latLongPicker][0]);
               var lon = 2150 - parseFloat(loc[latLongPicker][1]);
-
               circle.data("lat", lat);
               circle.data("longi", lon);
-
-
               var check = true;
               for (var j = 0; j < buckets.length; j++) {
                 if (buckets[j].color == colors[color]) {
                   check = false;
                 }
               }
-
               if (check) {
                 var k = new Bucket(0,850, colors[color], 0, 0, 1000);
                 buckets.push(k);
               }
-
-
             }
-
             bucketSize = buckets.length;
-
             bucketPlacement(bucketSize);
-
             /*
             for (var k = 0; k < loc.length; k++) {
         //console.log("hello");
         //console.log(loc[k][0]);
         var circle = paper.circle(1600 - parseFloat(loc[k][0]), 2000 - parseFloat(loc[k][1]), 2).attr({'fill':'red', 'stroke-opacity' : '0'});
-
         
       }
       */
-
-
     }
-
-
     var notClearedChart = true;
-
     var notClearedDot = true;
-
-
     var notCleared
     var barPoints = [];
-
     $(window).scroll(function (event) {
-
       var scroll = $(window).scrollTop();
       // scroll is pixel offset from top
-
       // we want scroll to scale to screen height  : less height = more scroll
-
       scroll = scroll / (($(window).height())/700);
-
       scroll = scroll / (($(window).width()) / 1300);
-
       // Do something
-
-
-
       if (scroll > 200 && scroll < 800) {
-
-
           //console.log("Bucket size is : " + bucketSize);
           if (notClearedChart) {
-
             bucketPlacement(bucketSize);
-
             paper.forEach(function (el) {
-
               var tString = createBarGraph(el, scroll);
-
               el.transform(tString);
-
           //console.log(tString);
           //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
           
         });
-
           }
-
-
         } else if (scroll > 800 && scroll < 1100) {
-
           bucketPlacement(bucketSize);
-
           if (notClearedChart) {
-
-
             clearData(notClearedChart);
             notClearedChart = false;
-
           }
-
         }
-
-
         else if (scroll >= 1100 && scroll < 1400) {
           //bucketPlacement(bucketSize);
           //console.log("We are in the scroll 1100  - 1250");
-
           if (notClearedDot) {
             paper.forEach(function (el) {
-
           //console.log("The X coordinate is: " + el.data("barX") +", the Y coordinate is:  " + el.data('barY'));
           //el.attr({'x':el.attr('barX')});
           //el.attr({'y':el.attr('barY')});
           var togetherString = comeTogether(el, scroll);
           //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
-
           el.transform(togetherString);
           //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
-
         });
           }
-
         } else if (scroll >= 1400 && scroll < 1500) {
           if (notClearedDot) {
             clearData(!notClearedDot);
             notClearedDot = false;
           }
-
-
-
-
-        } else if (scroll >= 1500 && scroll < 2000) { 
+        } else if (scroll >= 1500 && scroll < 1800) { 
           paper.forEach(function (el) {
-
-
             var mapString = makeMap(el, scroll);
-
             el.transform(mapString);
-
           });
-
-
-
         }
-
         
       });
 
+function onHover() {
+        box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 90, 8);
+        box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
+        box.type = "box";
+        box.show();
+
+var fakeID = this.data("fakeID");
+        var textStr1 = "Group " + 4 + " features";
+
+        textTitle = paper.text(this.getBBox().x+72, this.getBBox().y+60, textStr1);
+        textTitle.type = "text";
+        textTitle.attr({"fill":"#FFFFFF", "font-size": 12, "font-family": "Ubuntu, sans-serif", 'opacity':'0'});
+
+
+      var textStr2 = "";
+        for (card in dv[this.data("fakeID")]) {
+          textStr2 += card + " " + dv[this.data("fakeID")][card] + "%\n";
+        }
+
+        textField = paper.text(this.getBBox().x+72, this.getBBox().y+60, textStr2);
+        textField.type = "text";
+        textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+        //paper.text(this.data("originX"), this.data("originY"), str);
+
+        var color = this.data("color");
+
+        paper.forEach(function (el) {
+          if (el.data("color") != color && el.type != "text" && el.type != "box") {
+            el.attr("fill-opacity", 0.22);
+
+          } else {
+            el.attr('stroke',el.data('color'));
+            el.attr('stroke-width','5');
+            el.attr('stroke-opacity', '1.0');
+          }
+              
+        });
+                 
+      }
+          
+function onOut() {
+        box.hide();
+        textField.hide();
+        textTitle.hide();
+        paper.forEach(function (el) {
+
+          el.attr("fill-opacity", "1.0");    
+          el.attr('stroke-opacity', '0');  
+        });
+      }
 
 function makeMap(el, scroll) {
   var originX = el.data("x");
   var originY = el.data("y");
-
   var endX = el.data("lat");
   var endY = el.data("longi");
-
-
-
-  var scrollPercentage = (scroll-1500) / 500;
-
+  var scrollPercentage = (scroll-1500) / 300;
   var currentX = (endX - originX) * scrollPercentage;
-
   var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
-
-
-
-
-
               
-
               var retString = "t" + currentX +"," + currentY;
-
               return retString;
-
-
-
             }
-
-
             function clearData(rec) {
               barPoints = [];
-
               paper.forEach(function (el) {
                 var mString = updateBarChart(el, 800);
                 el.transform(mString);
@@ -429,16 +457,12 @@ function makeMap(el, scroll) {
               console.log("The bar X is: " + el.data('barX'));
               var k = new barPoint(el.data('barX'), el.data('barY'), el.data('lat'), el.data('longi'), el.data('color'));
               barPoints.push(k);
-
             } else {
-
-
               var k = new barPoint(el.getBBox().x, el.getBBox().y, el.data('lat'), el.data('longi'), el.data('color'));
               barPoints.push(k);
             }
           });
               paper.clear();
-
               for (var i = 0; i < barPoints.length; i++) {
                 console.log(barPoints[i].x);
                 console.log(barPoints[i].color);
@@ -448,60 +472,35 @@ function makeMap(el, scroll) {
                 circle.data("color", barPoints[i].color);
                 circle.data("lat", barPoints[i].lat);
                 circle.data("longi", barPoints[i].longi);
-
+                circle.mouseover(onHover);
+                circle.mouseout(onOut);
+                circle.click(onClick);
                 console.log("Just created a new circle!");
-
               }
             }
-
             function comeTogether(el, scroll) {
         //var bigCircle = paper.circle(500, 1600, 40);
               //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
-
               //console.log("The x value is: " + el.attr("x"));
-
-
               var originX = el.data("x");
               var originY = el.data("y");
-
-
               //console.log("Origins" + originX);
-
-
               var scrollPercentage = (scroll-1100) / 300;
               
-
               var endX = 400;
-              var endY = 1300;
-
+              var endY = 1600;
               //console.log("Ends" + endY);
-
               //console.log("ScrollPercentage" + scrollPercentage);
-
               var currentX = (endX - originX) * scrollPercentage;
-
               var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
-
-
-
-
-
               
-
               var retString = "t" + currentX +"," + currentY;
-
-
-
               console.log(retString);
-
               return retString;
-
             } 
             
             function createBarGraph(el, scroll) {
-
-
           //console.log("X is: " + buckets[i].x);
           //console.log(buckets[i].color);
           for (var j = 0; j < buckets.length; j++) {
@@ -509,61 +508,31 @@ function makeMap(el, scroll) {
               //console.log("The x value is: " + el.attr("x"));
               var originX = el.data("originX");
               var originY = el.data("originY");
-
               //console.log("Origins" + originX);
-
-
               var scrollPercentage = (scroll-200) / 600;
               
-
               var endX = buckets[j].x;
               var endY = buckets[j].yEnd;
-
               //console.log("Ends" + endY);
-
               //console.log("ScrollPercentage" + scrollPercentage);
-
               var currentX = (endX - originX) * scrollPercentage;
-
               var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
-
-
               buckets[j]["x"] += 10;
-
-
-
               if (currentX < buckets[j].xStart) {
-
-
                 var retString = "T" + currentX +"," + currentY;
-
-
-
                 if (buckets[j].x >= buckets[j].xEnd) {
                   buckets[j].x = buckets[j].xStart;
                   buckets[j].yEnd -= 10;
-
                 }
-
                 return retString;
-
               } else {
                 return "";
               }
             }
           }
-
-
-
-
-
         }
-
-
         function updateBarChart(el, scroll) {
-
-
           //console.log("X is: " + buckets[i].x);
           //console.log(buckets[i].color);
           for (var j = 0; j < buckets.length; j++) {
@@ -571,104 +540,54 @@ function makeMap(el, scroll) {
               //console.log("The x value is: " + el.attr("x"));
               var originX = el.data("originX");
               var originY = el.data("originY");
-
               //console.log("Origins" + originX);
-
-
               var scrollPercentage = (scroll-200) / 600;
               
-
               var endX = buckets[j].x;
               var endY = buckets[j].yEnd;
-
               //console.log("Ends" + endY);
-
               //console.log("ScrollPercentage" + scrollPercentage);
-
               var currentX = (endX - originX) * scrollPercentage;
-
               var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
-
               el.data("barX", endX);
               el.data("barY", endY);
-
               console.log("BAR X IS : " + el.data("barX"));
-
-
               buckets[j]["x"] += 10;
-
-
-
               if (currentX < buckets[j].xStart) {
-
-
                 var retString = "T" + currentX +"," + currentY;
-
-
-
                 if (buckets[j].x >= buckets[j].xEnd) {
                   buckets[j].x = buckets[j].xStart;
                   buckets[j].yEnd -= 10;
-
                 }
-
                 return retString;
-
               } else {
                 return "";
               }
             }
           }
-
-
-
-
-
         }
         function bucketPlacement(numBuckets) {
-
-
           var bucketLength = (700 / numBuckets);
-
           bucketLength = bucketLength - 10;
-
         //console.log("Bucket length is : " + bucketLength);
-
         var startOfNewBucket = 10;
-
         var padding = 10;
-
         for (var i = 0; i < numBuckets; i++) {
-
           // start and end point of path
-
           // y is constant
           // x is variable based on both padding & size of bucket
-
           var endOfBucket = startOfNewBucket+bucketLength;
-
           //var pathName = "M" + startOfNewBucket + ",850 L" + endOfBucket + ", 850";
-
           //var bucketBase = paper.path(pathName);
-
           buckets[i].x = startOfNewBucket;
           buckets[i].xStart = startOfNewBucket;
           buckets[i].xEnd = startOfNewBucket + bucketLength;
           buckets[i].yEnd = 1000;
           startOfNewBucket += (bucketLength + padding);
-
         }
-
-
-
       }
-
-
-
-
       loc = new Array();
-
       loc[0] = ['1128.5795', '515.2362'];
       loc[1] = ['1119.6642', '545.90814'];
       loc[2] = ['1060.5085', '519.67535'];
@@ -2131,6 +2050,7 @@ function makeMap(el, scroll) {
 
     </script>
 
+    <div id="chart_div"> PPP</div>
 
   </body>
 

@@ -14494,7 +14494,11 @@
     },
     {
       "_id": "56241a14de4bf40b17112f54",
+<<<<<<< HEAD
       "balance": 15196,
+=======
+      "balance": 15186,
+>>>>>>> 2b25e4abd1060882309df6c4b7d8cf0bd76af2b3
       "customer_id": "56241a13de4bf40b17112270",
       "nickname": "Carrol's Account",
       "rewards": 29396,
@@ -14518,7 +14522,11 @@
     },
     {
       "_id": "56241a14de4bf40b17112f57",
+<<<<<<< HEAD
       "balance": 48807,
+=======
+      "balance": 48817,
+>>>>>>> 2b25e4abd1060882309df6c4b7d8cf0bd76af2b3
       "customer_id": "56241a13de4bf40b17112271",
       "nickname": "Arleen's Account",
       "rewards": 17379,
@@ -20410,4 +20418,9 @@
       "type": "Credit Card"
     }
   ]
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 2b25e4abd1060882309df6c4b7d8cf0bd76af2b3
