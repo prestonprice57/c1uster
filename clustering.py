@@ -12,7 +12,9 @@ import json
 
 import numpy as np
 
+from geopy.geocoders import Nominatim
 
+print("Python running")
 application_id = "uxliXmbidhv6n7zhKAP2BG6mVJiFdpNkms4zaVMw"
 rest_api_key = "SF5ZKAFt44znr3vPBqfYMcYLeioegKDsjStvHfFz"
 
@@ -134,7 +136,7 @@ for customer in listOfAllCustomerDicts: #Get all customers
 # print(numberThatDidntWork)
 # pprint(allFields)
 
-
+pickle.dump( dictOfAllData, open( "dictFile.p", "wb" ) )
 
 listOfAllCustomerIDs = list(dictOfAllData.keys())
 listOfAllCustomerDicts = [dictOfAllData[customerID] for customerID in listOfAllCustomerIDs ]
@@ -148,6 +150,8 @@ matrixOfData = [[customer["accountID"], int(customer['age']), float(customer['av
 numRows = len(matrixOfData)
 numCols =  len(matrixOfData[0])
 
+listOfPossibleIVs = ['accountID', 'age', 'averageTimeToPayBill', 'degree', 'gender', 'incomeClass', 'married', 'professional']
+
 # print(matrixOfData[0])
 
 # print(numRows)
@@ -159,22 +163,25 @@ for row in matrixOfData:
 
 	dependentVariableDict[row[0]] = {
 	"card_type": row[numCols - 4],
-		"most_common_transaction_type": row[numCols - 3],
+	"most_common_transaction_type": row[numCols - 3],
 	"has_a_house": row[numCols - 2],
 	"credit_type": row[numCols - 1]
 
 	}
 	
 npMatrixOfData = np.matrix(matrixOfData)
-print(npMatrixOfData)
+# print(npMatrixOfData)
 	
-listOfIVs = sys.argv[1:]
-print(listOfIVs)
+listOfIVs = sys.argv[3:]
+# print(listOfIVs)
 
+dvTypeNumber = sys.argv[2]
+
+classifyOnly = sys.argv[1]
 
 
 ivMatrix = npMatrixOfData[:, listOfIVs]
-print(ivMatrix)
+# print(ivMatrix)
 
 from sklearn.cluster import KMeans
 
@@ -191,22 +198,132 @@ clusters_labels_unique = np.unique(cluster_labels)
 from sklearn.decomposition import PCA
 pca = PCA(n_components=2)
 X = pca.fit_transform(ivMatrix)
-print(X)
+# print(X)
 
 final = []
 
+geolocator = Nominatim()
+
+
+
 for rowNumber in range(len(X)):
-	x = X[rowNumber][0]
-	y = X[rowNumber][1]
+	x = round(X[rowNumber][0], 2)
+	y = round(X[rowNumber][1], 2)
 	classification = cluster_labels[rowNumber]
 	customerID = matrixOfData[rowNumber][0]
-	print(dictOfAllData[customerID] )
-	final.append({"x": str(x), 'y': str(y), 'category': str(classification )})
+	print(dictOfAllData[customerID]['address'])
+	try:
+		zipCode = dictOfAllData[customerID]['address']['zip']
+	except:
+		continue
+	#print( zipCode)
+	# location = geolocator.geocode(zipCode)
+
+	final.append({"x": str(x), 'y': str(y), 'category': str(classification ), 'zip': zipCode})
 
 
-jsonObj = json.dumps(final)
-print(jsonObj)
+coordinatesJSON = json.dumps(final)
+with open("coordinates.json", 'w') as outfile:
+    json.dump(final, outfile)
+# json.dump(final, "coordinates.json")
+print(coordinatesJSON)
 
+dvOptions = []
+
+
+if int(dvTypeNumber) == 3:
+	dvOptions = ["Venture", "QuickSilver", "Journey", "Spark", "Platinum"]
+
+elif int(dvTypeNumber) == 2:
+	dvOptions = ["Food", "Entertainment", "Utilities", "Housing", "Education"]
+
+elif int(dvTypeNumber) == 1:
+	dvOptions = ["Has a House", "Does not have a House"]
+
+else:
+	dvOptions = ['1','2','3','4','5'] #higher = better
+
+
+
+realDVDict = {'0': {},
+			'1': {},
+			'2': {},
+			'3': {},
+			'4': {}}
+
+for classNumber in range(5):
+	for dyType in dvOptions:
+		realDVDict[str(classNumber)][dyType] = 0
+
+for rowNumber in range(len(matrixOfData)):
+	classification = cluster_labels[rowNumber]
+
+	dvClass = matrixOfData[rowNumber][numCols - int(dvTypeNumber) - 1]
+	realDVDict[str(classification)][dvClass] += 1
+
+
+
+classTotals = []
+for classNumber in range(5):
+	totalNumberForThisClass = 0
+	for dyType in dvOptions:
+		totalNumberForThisClass += realDVDict[str(classNumber)][dyType]
+
+	classTotals.append(totalNumberForThisClass)
+
+	for dyType in dvOptions:
+		realDVDict[str(classNumber)][dyType] = str(round(realDVDict[str(classNumber)][dyType] / totalNumberForThisClass * 100, 2))
+
+dvJSON = json.dumps(realDVDict)
+with open("dv.json", 'w') as outfile:
+    json.dump(realDVDict, outfile)
+# json.dump(realDVDict, "dv.json")
+print(dvJSON)
+
+
+
+avgValuesForEachFeatureInEachCluster = {'0': {},
+			'1': {},
+			'2': {},
+			'3': {},
+			'4': {}}
+
+
+ivsUsed = []
+
+
+for iv in listOfIVs:
+	ivsUsed.append(listOfPossibleIVs[int(iv)])
+
+for classNumber in range(5):
+	for ivString in ivsUsed:
+		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = 0
+
+
+
+for rowNumber in range(len(matrixOfData)):
+	classification = cluster_labels[rowNumber]
+
+
+	for ivIndex in range(len(listOfIVs)):
+		ivNumber = int(listOfIVs[ivIndex])
+		ivString = ivsUsed[ivIndex]
+		avgValuesForEachFeatureInEachCluster[str(classification)][ivString] += matrixOfData[rowNumber][ivNumber]
+
+
+for classNumber in range(5):
+	totalNumberForThisClass = 0
+
+	for ivString in ivsUsed:
+		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = str(round(avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] / classTotals[classNumber],2 ))
+
+avgValueJSON = json.dumps(avgValuesForEachFeatureInEachCluster)
+with open("avgValue.json", 'w') as outfile:
+    json.dump(avgValuesForEachFeatureInEachCluster, outfile)
+# json.dump(avgValuesForEachFeatureInEachCluster, "avgValue.json")
+
+print(avgValueJSON)
+# pprint(avgValuesForEachFeatureInEachCluster)
 
 
 # print(npMatrixOfData)

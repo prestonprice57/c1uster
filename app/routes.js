@@ -1,5 +1,4 @@
 module.exports = function(app) {
-
 	// server routes ===========================================================
 	// handle things like api calls
 	// authentication routes
@@ -14,11 +13,19 @@ module.exports = function(app) {
 
 	// testing json 
 	app.get('/jsontest', function(req, res) {
-		res.sendfile('./public/sampleJson.py');
+		
 	}); 
 
-	app.post('/cluster', function(req, res) {
-		console.log(req.body);
-		console.log(res.body);
+	app.get('/cluster', function(req, res) {
+		//console.log(req.body);
+		console.log("Cluster is running");
+		var exec = require('child_process').exec;
+		console.log("Executing Python");
+		exec('python3 ./clustering.py 0 3 1 2 3', function (error, stdout, stderr) {
+			if (error !== null) {
+				console.log(stdout);
+			}
+		});
+		console.log("Python code complete")
 	});
 };
