@@ -19,5 +19,6 @@ module.exports = function(app) {
 
 	app.post('/cluster', function(req, res) {
 		console.log(req.body);
+		console.log(res.body);
 	});
 };
