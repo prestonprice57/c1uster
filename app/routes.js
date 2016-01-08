@@ -12,12 +12,11 @@ module.exports = function(app) {
 	});
 
 	// testing json 
-	app.get('/jsontest', function(req, res) {
+	//app.get('/jsontest', function(req, res) {
 		
-	}); 
+	//}); 
 
 	app.get('/cluster', function(req, res) {
-		//console.log(req.body);
 		console.log("Cluster is running");
 		var exec = require('child_process').exec;
 		console.log("Executing Python");

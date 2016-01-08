@@ -322,7 +322,7 @@ with open("avgValue.json", 'w') as outfile:
     json.dump(avgValuesForEachFeatureInEachCluster, outfile)
 # json.dump(avgValuesForEachFeatureInEachCluster, "avgValue.json")
 
-print(avgValueJSON)
+#print(avgValueJSON)
 # pprint(avgValuesForEachFeatureInEachCluster)
 
 
