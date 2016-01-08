@@ -276,12 +276,13 @@ function onOut() {
               //var circle = paper.circle(x,y, 2).attr({'fill':'white', 'stroke-opacity' : '0'});
               circle.id = i;
               circle.name = colors[color];
-              circle.mouseover(onHover);
-              circle.mouseout(onOut);
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
               circle.data("fakeID", coordinates[i]["category"]);
+
+              circle.mouseover(onHover);
+              circle.mouseout(onOut);
               // set one will be 0 to 600
               // set two will be 200 to 800
               // set three will be 400 to 1000
@@ -381,6 +382,58 @@ function onOut() {
         }
         
       });
+
+function onHover() {
+        box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 90, 8);
+        box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
+        box.type = "box";
+        box.show();
+
+var fakeID = this.data("fakeID");
+        var textStr1 = "Group " + 4 + " features";
+
+        textTitle = paper.text(this.getBBox().x+72, this.getBBox().y+60, textStr1);
+        textTitle.type = "text";
+        textTitle.attr({"fill":"#FFFFFF", "font-size": 12, "font-family": "Ubuntu, sans-serif", 'opacity':'0'});
+
+
+      var textStr2 = "";
+        for (card in dv[this.data("fakeID")]) {
+          textStr2 += card + " " + dv[this.data("fakeID")][card] + "%\n";
+        }
+
+        textField = paper.text(this.getBBox().x+72, this.getBBox().y+60, textStr2);
+        textField.type = "text";
+        textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+        //paper.text(this.data("originX"), this.data("originY"), str);
+
+        var color = this.data("color");
+
+        paper.forEach(function (el) {
+          if (el.data("color") != color && el.type != "text" && el.type != "box") {
+            el.attr("fill-opacity", 0.22);
+
+          } else {
+            el.attr('stroke',el.data('color'));
+            el.attr('stroke-width','5');
+            el.attr('stroke-opacity', '1.0');
+          }
+              
+        });
+                 
+      }
+          
+function onOut() {
+        box.hide();
+        textField.hide();
+        textTitle.hide();
+        paper.forEach(function (el) {
+
+          el.attr("fill-opacity", "1.0");    
+          el.attr('stroke-opacity', '0');  
+        });
+      }
+
 function makeMap(el, scroll) {
   var originX = el.data("x");
   var originY = el.data("y");
