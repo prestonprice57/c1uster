@@ -157,12 +157,19 @@
             var k = new barPoint(el.attr('barX'), el.attr('barY'), 0, 0, el.attr('color'));
             barPoints.append(k);
           });
-
+            paper.clear();
 
           }
           if (!repopulated) {
 
+            for (var i = 0; i < barPoints.length; i++) {
 
+              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
+
+
+
+
+            }
             
           }
           
