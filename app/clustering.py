@@ -14,7 +14,8 @@ import numpy as np
 
 from geopy.geocoders import Nominatim
 
-
+print("Python running")
+"""
 application_id = "uxliXmbidhv6n7zhKAP2BG6mVJiFdpNkms4zaVMw"
 rest_api_key = "SF5ZKAFt44znr3vPBqfYMcYLeioegKDsjStvHfFz"
 
@@ -225,20 +226,8 @@ for rowNumber in range(len(X)):
 coordinatesJSON = json.dumps(final)
 with open("coordinates.json", 'w') as outfile:
     json.dump(final, outfile)
-# print(coordinatesJSON)
-
-
-finalFile = open("coordinates.json", 'r')
-
-finalString = finalFile.read()
-print('var coordinates =' + finalString + ';')
-finalFileJS = open("coordinates.js", 'w')
-
-finalFileJS.write('var coordinates =' + finalString + ';')
-finalFile.close()
-finalFileJS.close()
-
 # json.dump(final, "coordinates.json")
+print(coordinatesJSON)
 
 dvOptions = []
 
@@ -290,18 +279,8 @@ dvJSON = json.dumps(realDVDict)
 with open("dv.json", 'w') as outfile:
     json.dump(realDVDict, outfile)
 # json.dump(realDVDict, "dv.json")
-# print(dvJSON)
+print(dvJSON)
 
-
-dvFile = open("dv.json", 'r')
-
-dvString = dvFile.read()
-print('var dv =' + dvString + ';')
-dvFileJS = open("dv.js", 'w')
-
-dvFileJS.write('var coordinates =' + dvString + ';')
-dvFile.close()
-dvFileJS.close()
 
 
 avgValuesForEachFeatureInEachCluster = {'0': {},
@@ -317,36 +296,9 @@ ivsUsed = []
 for iv in listOfIVs:
 	ivsUsed.append(listOfPossibleIVs[int(iv)])
 
-# for classNumber in range(5):
-# 	for ivString in ivsUsed:
-# 		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = 0
-
-
-
-# for rowNumber in range(len(matrixOfData)):
-# 	classification = cluster_labels[rowNumber]
-
-
-# 	for ivIndex in range(len(listOfIVs)):
-# 		ivNumber = int(listOfIVs[ivIndex])
-# 		ivString = ivsUsed[ivIndex]
-# 		avgValuesForEachFeatureInEachCluster[str(classification)][ivString] += matrixOfData[rowNumber][ivNumber]
-
-
-# for classNumber in range(5):
-# 	totalNumberForThisClass = 0
-
-# 	for ivString in ivsUsed:
-# 		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = str(round(avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] / classTotals[classNumber],2 ))
-
-
-
-thirdJSONFile = {}
-
-for ivString in ivsUsed:
-	thirdJSONFile[ivString] = {}
-	for classNumber in range(5):
-		thirdJSONFile[ivString][str(classNumber)] = 0
+for classNumber in range(5):
+	for ivString in ivsUsed:
+		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = 0
 
 
 
@@ -357,37 +309,21 @@ for rowNumber in range(len(matrixOfData)):
 	for ivIndex in range(len(listOfIVs)):
 		ivNumber = int(listOfIVs[ivIndex])
 		ivString = ivsUsed[ivIndex]
-		thirdJSONFile[ivString][str(classification)] += matrixOfData[rowNumber][ivNumber]
+		avgValuesForEachFeatureInEachCluster[str(classification)][ivString] += matrixOfData[rowNumber][ivNumber]
 
 
 for classNumber in range(5):
 	totalNumberForThisClass = 0
 
 	for ivString in ivsUsed:
-		thirdJSONFile[ivString][str(classNumber)] = str(round(thirdJSONFile[ivString][str(classNumber)] / classTotals[classNumber],2 ))
+		avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] = str(round(avgValuesForEachFeatureInEachCluster[str(classNumber)][ivString] / classTotals[classNumber],2 ))
 
-
-
-avgValueJSON = json.dumps(thirdJSONFile)
+avgValueJSON = json.dumps(avgValuesForEachFeatureInEachCluster)
 with open("avgValue.json", 'w') as outfile:
-    json.dump(thirdJSONFile, outfile)
+    json.dump(avgValuesForEachFeatureInEachCluster, outfile)
 # json.dump(avgValuesForEachFeatureInEachCluster, "avgValue.json")
 
-
-avgValueFile = open("avgValue.json", 'r')
-
-avgValueString = avgValueFile.read()
-print('var avgValue =' + avgValueString + ';')
-avgValueFileJS = open("avgValue.js", 'w')
-
-avgValueFileJS.write('var avgValue =' + avgValueString + ';')
-
-avgValueFileJS.close()
-
-print("Actually complete")
-
-# print(avgValueJSON)
-
+#print(avgValueJSON)
 # pprint(avgValuesForEachFeatureInEachCluster)
 
 
@@ -395,3 +331,4 @@ print("Actually complete")
 # print(ivMatrix)
 
 
+"""

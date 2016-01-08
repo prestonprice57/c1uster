@@ -18,12 +18,16 @@ module.exports = function(app) {
 
 	app.get('/cluster', function(req, res) {
 		console.log("Cluster is running");
-		var exec = require('child_process').exec;
 		console.log("Executing Python");
-		exec('python3 ./clustering.py 0 3 1 2 3', function (error, stdout, stderr) {
-			if (error !== null) {
-				console.log(stdout);
-			}
+		
+		// var sys = require('sys')
+		// var exec = require('child_process').exec;
+		// var child;
+		// // executes `pwd`
+		require('child_process').execSync("python clustering.py 0 3 1 2 3", function (error, stdout, stderr) {
+			console.log(stdout);
+		  if (error !== null) {
+		  }
 		});
 		console.log("Python code complete")
 	});

@@ -19,7 +19,9 @@ var customerApp = angular.module('customerApp', [])
         $scope.submit = function() {
                 console.log("hi");
               	console.log($scope.customerData.customerInfo);
+                console.log("Executing Python");
               	$http.get('/cluster'); 
+                console.log("End Python");
 				        $scope.customerData = avgValue;
         }
     });
