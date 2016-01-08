@@ -168,31 +168,34 @@
     this.longi = longi;
     this.color = color;
   }
+
 function onHover() {
         box = paper.rect(this.getBBox().x+15, this.getBBox().y+15, 114, 120, 8);
         box.attr({'fill':'#003A6F', 'stroke': '#003A6F', 'opacity':'.8','fill-opacity':'.8', 'stroke-width':'2'});
         box.type = "box";
         box.show();
 
-        var color = this.data("color");
 
+        var fakeID = this.data("fakeID");
+        console.log(fakeID);
+        var textStr1 = "Group " + fakeID + " features";
 
-        var textStr = "Group " + this.data["fakeID"] + " features\n";
-
-        textFieldTitle = paper.text(this.getBBox().x+72, this.getBBox().y+40, textStr);
-        textFieldTitle.type = "text";
-        textFieldTitle.attr({'fill':'#FFFFFF'});
-        textFieldTitle.attr({ "font-size": 12, "font-family": "Ubuntu, sans-serif" });
+        textTitle = paper.text(this.getBBox().x+72, this.getBBox().y+40, textStr1);
+        textTitle.type = "text";
+        textTitle.attr({'fill':'#FFFFFF'});
+        textTitle.attr({ "font-size": 12, "font-family": "Ubuntu, sans-serif" });
 
 
         var textStr2 = "";
-        for (card in dv[this.id]) {
-          textStr2 += card + " " + dv[this.data["fakeID"]][card] + "%\n";
+        for (card in dv[this.data("fakeID")]) {
+          textStr2 += card + " " + dv[this.data("fakeID")][card] + "%\n";
         }
 
         textField = paper.text(this.getBBox().x+72, this.getBBox().y+85, textStr2);
         textField.type = "text";
         textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
+        //paper.text(this.data("originX"), this.data("originY"), str);
+
 
         paper.forEach(function (el) {
           if (el.data("color") != color && el.type != "text" && el.type != "box") {
@@ -206,8 +209,7 @@ function onHover() {
               
         });
 
-        //paper.text(this.data("originX"), this.data("originY"), str);
-                 
+                       
       }
           
 function onOut() {
@@ -255,6 +257,11 @@ function onOut() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
             paper = Raphael(document.getElementById('canvas'), '85%','50%');
             paper.setViewBox(0,0, 700, 2500, true);
+
+            textTitle = paper.text(0,0,"");
+            textField = paper.text(0,0,"");
+            box = paper.rect(0,0,0,0,0);
+
             //var bigCircle = paper.circle(500, 1000, 40);
             var colors = ['#CF000F', '#663399', '#22A7F0', '#00B16A', '#F39C12', '#67809F', '#26A65B'];
             for (var i = 1; i <coordinates.length; i = i + 3) {
@@ -274,7 +281,7 @@ function onOut() {
               circle.data("originX", x);
               circle.data("originY", y);
               circle.data("color", colors[color]);
-              circle.data("fakeID", color);
+              circle.data("fakeID", coordinates[i]["category"]);
               // set one will be 0 to 600
               // set two will be 200 to 800
               // set three will be 400 to 1000
