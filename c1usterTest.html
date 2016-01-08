@@ -159,6 +159,7 @@
           });
             paper.clear();
 
+
             notCleared = false;
 
           }
@@ -178,6 +179,13 @@
 
             }
             repopulated = true;
+
+              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
+
+
+
+
+            }
             
           }
           
