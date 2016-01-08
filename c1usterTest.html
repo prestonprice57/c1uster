@@ -17,7 +17,7 @@
 
 
       <script>
-
+      "use stricts";
 
        $(document).ready(function() {
           drawPlot();
@@ -36,16 +36,31 @@
         this.yEnd = yEnd;
        }
 
+       function barPoint(x, y, lat, longi, color) {
+        this.x = x;
+        this.y = y;
+        this.lat = lat;
+        this.longi = longi;
+        this.color = color;
+
+
+
+
+       }
+
        function drawPlot() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
+ 
             paper = Raphael(document.getElementById('canvas'), '85%','50%');
+     
 
             paper.setViewBox(0,0, 700, 2500, true);
+            //var bigCircle = paper.circle(500, 1000, 40);
 
 
             var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
 
-            for (var i = 1; i < 5; i++) {
+            for (var i = 1; i <300; i++) {
 
 
 
@@ -61,6 +76,8 @@
 
               circle.data("originX", x);
               circle.data("originY", y);
+
+
 
               var check = true;
               for (var j = 0; j < buckets.length; j++) {
@@ -86,6 +103,7 @@
           
       }
 
+      var notCleared = true;
 
       $(window).scroll(function (event) {
 
@@ -116,6 +134,7 @@
           el.transform(tString);
 
           //console.log(tString);
+          //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
           
           });
 
@@ -129,17 +148,32 @@
 
           var mString = updateBarChart(el, 800);
           el.transform(mString);
+          //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
           });
-        
-        }
 
-        else if (scroll > 1100 && scroll < 1250) {
+       
+
+
+
+        
+        } 
+
+        else if (scroll >= 1100 && scroll < 1500) {
+          //bucketPlacement(bucketSize);
+          //console.log("We are in the scroll 1100  - 1250");
+
 
           paper.forEach(function (el) {
 
-          var mString = comeTogether(el, scroll);
-          el.transform(mString);
+          //console.log("The X coordinate is: " + el.data("barX") +", the Y coordinate is:  " + el.data('barY'));
+          el.attr({'x':el.attr('barX')});
+          el.attr({'y':el.attr('barY')});
+          var togetherString = comeTogether(el, scroll);
+          //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
+
+          el.transform(togetherString);
+          //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
           });
         
@@ -153,29 +187,53 @@
 
 
       function comeTogether(el, scroll) {
-        var bigCircle = paper.circle(500, 1600, 40);
-        var boriginX = el.data("barX");
-        var boriginY = el.data("barY");
+        //var bigCircle = paper.circle(500, 1600, 40);
+              //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
-        console.log("origin X is : " + boriginX + " origin Y is : " + boriginY);
-        var scrollPercentage = (scroll - 1100)/  150;
-
-        var bendX = 0;
-
-        var bendY = 0;
-
-        var currX = (bendX - boriginX) * scrollPercentage;
-
-        var currY = (bendY - boriginY) * scrollPercentage;
+              //console.log("The x value is: " + el.attr("x"));
 
 
+              var originX = el.data("originX");
+              var originY = el.data("originY");
 
-        var retString = "T" + currX + ", " + currY;
-        console.log("Return string is: " + retString);
-        return retString;
+              var bX = el.data("barX");
+              var bY = el.data("barY");
+              
+
+              //console.log("Origins" + originX);
 
 
-      }
+              var scrollPercentage = (scroll-1100) / 400;
+              
+
+              var endX = 400;
+              var endY = 1600;
+
+              //console.log("Ends" + endY);
+
+              //console.log("ScrollPercentage" + scrollPercentage);
+
+              var currentX = (endX - originX) * scrollPercentage;
+
+              var currentY = (endY - originY) * scrollPercentage;
+              // we have a start X and Y --> we need to store this
+
+
+             
+
+
+              
+
+              var retString = "t" + currentX +"," + currentY;
+
+
+
+              console.log(retString);
+
+              return retString;
+
+            } 
+            
       function createBarGraph(el, scroll) {
 
 
@@ -267,10 +325,11 @@
               var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
 
-              el.data("barX", currentX);
-              el.data("barY", currentY);
+              el.data("barX", endX);
+              el.data("barY", endY);
 
               console.log("BAR X IS : " + el.data("barX"));
+
 
               buckets[j]["x"] += 10;
              
