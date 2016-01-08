@@ -13838,7 +13838,7 @@
     },
     {
       "_id": "56241a14de4bf40b17112f02",
-      "balance": 17825.05000000001,
+      "balance": 17808.05000000001,
       "customer_id": "56241a13de4bf40b1711224d",
       "nickname": "Arely's Account",
       "rewards": 23287,
@@ -14782,7 +14782,7 @@
     },
     {
       "_id": "56241a14de4bf40b17112f78",
-      "balance": 656,
+      "balance": 0,
       "customer_id": "56241a13de4bf40b1711227d",
       "nickname": "Cheri's Account",
       "rewards": 14198,
@@ -20226,7 +20226,7 @@
     },
     {
       "_id": "568ee77c3921211200ef2115",
-      "balance": 2122.0,
+      "balance": 2269.0,
       "customer_id": "56241a13de4bf40b1711224d",
       "nickname": "Carrot Savings",
       "rewards": 0,
@@ -20365,6 +20365,46 @@
       "_id": "568f511e3921211200ef2198",
       "balance": 100,
       "customer_id": "568f511e3921211200ef2197",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f5cfb3921211200ef21a9",
+      "balance": 100,
+      "customer_id": "568f5cfb3921211200ef21a7",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f5cfb3921211200ef21aa",
+      "balance": 100,
+      "customer_id": "568f5cfb3921211200ef21a8",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f5cfb3921211200ef21ab",
+      "balance": 100,
+      "customer_id": "568f5cfb3921211200ef21a6",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f5cfc3921211200ef21ad",
+      "balance": 100,
+      "customer_id": "568f5cfc3921211200ef21ac",
+      "nickname": "nickname",
+      "rewards": 0,
+      "type": "Credit Card"
+    },
+    {
+      "_id": "568f69233921211200ef21fb",
+      "balance": 100,
+      "customer_id": "568f69233921211200ef21fa",
       "nickname": "nickname",
       "rewards": 0,
       "type": "Credit Card"
