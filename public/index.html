@@ -2,87 +2,131 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <base href="/">
+  <meta charset="UTF-8">
+  <base href="/">
 
-    <title>c1uster</title>
+  <title>c1uster</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css"> <!-- custom styles -->
+  <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+  <!-- JS -->
+  <script src="libs/angular/angular.min.js"></script>
+  <script src="libs/angular-route/angular-route.min.js"></script>
 
-    <!-- JS -->
-    <script src="libs/angular/angular.min.js"></script>
-    <script src="libs/angular-route/angular-route.min.js"></script>
-
-    <!-- ANGULAR CUSTOM -->
-    <script src="js/controllers/MainCtrl.js"></script>
-    <script src="js/controllers/NerdCtrl.js"></script>
-    <script src="js/services/NerdService.js"></script>
-    <script src="js/controllers/GeekCtrl.js"></script>
-    <script src="js/services/GeekService.js"></script>
-    <script src="js/appRoutes.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/avgValue.js"></script>
-    <script src="js/dv.js"></script>
-    <script src="js/coordinates.js"></script>
-    <script src="js/raphael-min.js"></script>
+  <!-- ANGULAR CUSTOM -->
+  <script src="js/controllers/MainCtrl.js"></script>
+  <script src="js/controllers/NerdCtrl.js"></script>
+  <script src="js/services/NerdService.js"></script>
+  <script src="js/controllers/GeekCtrl.js"></script>
+  <script src="js/services/GeekService.js"></script>
+  <script src="js/appRoutes.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/avgValue.js"></script>
+  <script src="js/dv.js"></script>
+  <script src="js/coordinates.js"></script>
+  <script src="js/raphael-min.js"></script>
 </head>
 
 <body ng-app="customerApp" ng-controller="customerController">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">c1uster</a>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <li><a href="#filterModal" data-toggle="modal">Filters</a></li>
-                    </li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
-    </nav>
-
-    <!-- Page Content -->
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
-
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <h1></h1>
-                <div id="canvas" style="height:100%" > </div>
-            </div>
-        </div>
-        <!-- /.row -->
-
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">c<r>1</r>uster</a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <li><a href="#filterModal" data-toggle="modal">Filters</a></li>
+          </li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
+  </nav>
 
-    <!-- Page Pop-Ups -->
-    <div class="modal fade" id="filterModal" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content modal-custom">
-          <form class="form-horizontal" role="form">
-            <div class="modal-header">
-              <h4>Filter Clusters</h4>
-            </div>
-            <div class="modal-body">
-              <p>Select from the following filters below</p>
-            </div>
-            <div class="form-group">
+  <!-- Page Content -->
+  <div class="container">
+
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1></h1>
+        <div id="canvas" style="height:100%" > </div>
+      </div>
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Page Pop-Ups -->
+  <div class="modal fade" id="filterModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content modal-custom">
+        <form class="form-horizontal" role="form">
+          <div class="modal-header">
+            <h4>Filter Clusters</h4>
+          </div>
+          <div class="modal-body">
+          <p>Independant Variables:</p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.weight"> Weight
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.degree"> Degree Status
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.income"> Income Level
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.professional"> Professional Status
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.marital"> Marital Status
+           </div>
+           <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.average"> Average Time to Pay Bill
+           </div>
+           <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="col-md-12">
+             <p>Dependant Variables:</p>
+          </div>
+          <div class="col-md-6">
+           <input type="radio" name="gender" value="male"> Male<br>
+         </div>
+         <div class="col-md-6">
+           <input type="radio" name="gender" value="male"> Male<br>
+         </div>
+         <div class="col-md-6">
+           <input type="radio" name="gender" value="male"> Male<br>
+         </div>
+         <div class="col-md-6">
+           <input type="radio" name="gender" value="male"> Male<br>
+         </div>
+       </div>
+<!--             <div class="form-group">
                 <label class="checkbox-inline">
                     <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
                 </label>
@@ -92,61 +136,72 @@
                 <label class="checkbox-inline">
                     <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
                 </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.income"> Income
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.income"> Income
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
+                </label>
+              </div>  -->
             </div>
-            <pre>
-              {{ customerData }}
-            </pre>
-            <div class="modal-footer">
-              <button type="submit" ng-click="submit();" class="btn btn-primary">Submit</button>
-              <a class="btn btn-icon" data-dismiss="modal">Close</a>
-            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- jQuery Version 1.11.1 -->
-    <script src="js/jquery.js"></script>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
 
-      <script>
-      "use stricts";
+        <script>
+          "use stricts";
 
-       $(document).ready(function() {
-          drawPlot();
-      });
+          $(document).ready(function() {
+            drawPlot();
+          });
 
-       bucketSize = 0;
-       buckets = [];
-       
+          bucketSize = 0;
+          buckets = [];
 
-       function Bucket(x, y, color, xStart, xEnd, yEnd) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.xStart = xStart;
-        this.xEnd = xEnd;
-        this.yEnd = yEnd;
-       }
 
-       function barPoint(x, y, lat, longi, color) {
-        this.x = x;
-        this.y = y;
-        this.lat = lat;
-        this.longi = longi;
-        this.color = color;
+          function Bucket(x, y, color, xStart, xEnd, yEnd) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.xStart = xStart;
+            this.xEnd = xEnd;
+            this.yEnd = yEnd;
+          }
+
+          function barPoint(x, y, lat, longi, color) {
+            this.x = x;
+            this.y = y;
+            this.lat = lat;
+            this.longi = longi;
+            this.color = color;
 
 
 
 
-       }
+          }
 
-       function drawPlot() {
+          function drawPlot() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
- 
+
             paper = Raphael(document.getElementById('canvas'), '85%','50%');
-     
+
 
             paper.setViewBox(0,0, 700, 2500, true);
             //var bigCircle = paper.circle(500, 1000, 40);
@@ -194,17 +249,17 @@
 
 
 
-          
-      }
 
-      var notCleared = true;
-      var repopulated = false;
+          }
 
-      var barPoints = [];
+          var notCleared = true;
+          var repopulated = false;
 
-      $(window).scroll(function (event) {
+          var barPoints = [];
 
-      var scroll = $(window).scrollTop();
+          $(window).scroll(function (event) {
+
+            var scroll = $(window).scrollTop();
       // scroll is pixel offset from top
 
       // we want scroll to scale to screen height  : less height = more scroll
@@ -217,7 +272,7 @@
 
 
 
-        if (scroll > 200 && scroll < 800) {
+      if (scroll > 200 && scroll < 800) {
 
 
           //console.log("Bucket size is : " + bucketSize);
@@ -226,14 +281,14 @@
 
           paper.forEach(function (el) {
 
-          var tString = createBarGraph(el, scroll);
+            var tString = createBarGraph(el, scroll);
 
-          el.transform(tString);
+            el.transform(tString);
 
           //console.log(tString);
           //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
           
-          });
+        });
 
 
 
@@ -244,8 +299,8 @@
           if (notCleared && !repopulated) {
             paper.forEach(function (el) {
 
-            var mString = updateBarChart(el, 800);
-            el.transform(mString);
+              var mString = updateBarChart(el, 800);
+              el.transform(mString);
             //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
             var k = new barPoint(el.attr('barX'), el.attr('barY'), 0, 0, el.attr('color'));
@@ -272,7 +327,7 @@
 
 
 
-        
+
         } 
 
         else if (scroll >= 1100 && scroll < 1500) {
@@ -291,18 +346,18 @@
           el.transform(togetherString);
           //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
-          });
-        
+        });
+
         }
 
         
       });
 
-     
 
 
 
-      function comeTogether(el, scroll) {
+
+function comeTogether(el, scroll) {
         //var bigCircle = paper.circle(500, 1600, 40);
               //console.log("The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
 
@@ -335,7 +390,7 @@
               // we have a start X and Y --> we need to store this
 
 
-             
+
 
 
               
@@ -350,7 +405,7 @@
 
             } 
             
-      function createBarGraph(el, scroll) {
+            function createBarGraph(el, scroll) {
 
 
           //console.log("X is: " + buckets[i].x);
@@ -381,38 +436,38 @@
 
 
               buckets[j]["x"] += 10;
-             
+
 
 
               if (currentX < buckets[j].xStart) {
 
 
-              var retString = "T" + currentX +"," + currentY;
+                var retString = "T" + currentX +"," + currentY;
 
 
 
-              if (buckets[j].x >= buckets[j].xEnd) {
-                buckets[j].x = buckets[j].xStart;
-                buckets[j].yEnd -= 10;
+                if (buckets[j].x >= buckets[j].xEnd) {
+                  buckets[j].x = buckets[j].xStart;
+                  buckets[j].yEnd -= 10;
 
+                }
+
+                return retString;
+
+              } else {
+                return "";
               }
-
-              return retString;
-
-            } else {
-              return "";
-            }
             }
           }
-        
 
 
 
 
-      }
+
+        }
 
 
-      function updateBarChart(el, scroll) {
+        function updateBarChart(el, scroll) {
 
 
           //console.log("X is: " + buckets[i].x);
@@ -448,41 +503,41 @@
 
 
               buckets[j]["x"] += 10;
-             
+
 
 
               if (currentX < buckets[j].xStart) {
 
 
-              var retString = "T" + currentX +"," + currentY;
+                var retString = "T" + currentX +"," + currentY;
 
 
 
-              if (buckets[j].x >= buckets[j].xEnd) {
-                buckets[j].x = buckets[j].xStart;
-                buckets[j].yEnd -= 10;
+                if (buckets[j].x >= buckets[j].xEnd) {
+                  buckets[j].x = buckets[j].xStart;
+                  buckets[j].yEnd -= 10;
 
+                }
+
+                return retString;
+
+              } else {
+                return "";
               }
-
-              return retString;
-
-            } else {
-              return "";
-            }
             }
           }
-        
 
 
 
 
-      }
-      function bucketPlacement(numBuckets) {
+
+        }
+        function bucketPlacement(numBuckets) {
 
 
-        var bucketLength = (700 / numBuckets);
+          var bucketLength = (700 / numBuckets);
 
-        bucketLength = bucketLength - 10;
+          bucketLength = bucketLength - 10;
 
         //console.log("Bucket length is : " + bucketLength);
 
@@ -518,8 +573,9 @@
 
 
 
-       </script>
+    </script>
 
-</body>
 
-</html>
+ </body>
+
+ </html>

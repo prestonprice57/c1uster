@@ -30,5 +30,6 @@ module.exports = function(app) {
 		  }
 		});
 		console.log("Python code complete")
+		res.sendfile('./public/index.html');
 	});
 };
