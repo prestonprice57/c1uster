@@ -27,6 +27,10 @@
   <script src="js/dv.js"></script>
   <script src="js/coordinates.js"></script>
   <script src="js/raphael-min.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
 </head>
 
 <body ng-app="customerApp" ng-controller="customerController">
@@ -150,6 +154,7 @@
   $(document).ready(function() {
           //initMap();
           drawPlot();
+          drawChart();
         });
   bucketSize = 0;
   buckets = [];
@@ -196,9 +201,9 @@ function onHover() {
         textField.attr({'fill':"#FFFFFF", "font-size": 10, "font-family": "Ubuntu, sans-serif"});
         //paper.text(this.data("originX"), this.data("originY"), str);
 
-
+        var colorem = this.data("color");
         paper.forEach(function (el) {
-          if (el.data("color") != color && el.type != "text" && el.type != "box") {
+          if (el.data("color") !=  colorem && el.type != "text" && el.type != "box") {
             el.attr("fill-opacity", 0.22);
 
           } else {
@@ -232,16 +237,9 @@ function onOut() {
         console.log("curColor is: " + curColor);
         paper.forEach(function (el) {
           if (el.data("color") == curColor) {
-            var endX = el.getBBox().x;
-            var endY = el.getBBox().y;
-            paper.forEach(function (el2) {
-              if (el2.data("color") == curColor) {
-                console.log("we are drawing a connection!");
-                drawConnectingPath(el2.getBBox().x, el2.getBBox().y, endX, endY, curColor);
-              } else {
-                el2.attr('fill-opacity', '0.2');
-              }
-            });
+
+            drawConnectingPath(el.getBBox().x, el.getBBox().y, originX, originY, curColor);
+
             
           }
         });
@@ -253,6 +251,8 @@ function onOut() {
         console.log("the travelled path is: " + travelled);
         var travelPath = paper.path(travelled).attr({'opacity':'0.15', 'stroke-width':'1', 'stroke':color});
       }
+
+
       function drawPlot() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
             paper = Raphael(document.getElementById('canvas'), '85%','50%');
@@ -264,7 +264,7 @@ function onOut() {
 
             //var bigCircle = paper.circle(500, 1000, 40);
             var colors = ['#CF000F', '#663399', '#22A7F0', '#00B16A', '#F39C12', '#67809F', '#26A65B'];
-            for (var i = 1; i <coordinates.length; i = i + 3) {
+            for (var i = 1; i <coordinates.length; i = i + 10) {
               //var color = Math.round(6 * Math.random());
               //var x = Math.round(1200 * Math.random())  + 75;
               //var y = Math.round(300 * Math.random()) + 100;
@@ -373,7 +373,7 @@ function onOut() {
             clearData(!notClearedDot);
             notClearedDot = false;
           }
-        } else if (scroll >= 1500 && scroll < 2000) { 
+        } else if (scroll >= 1500 && scroll < 1800) { 
           paper.forEach(function (el) {
             var mapString = makeMap(el, scroll);
             el.transform(mapString);
@@ -386,7 +386,7 @@ function makeMap(el, scroll) {
   var originY = el.data("y");
   var endX = el.data("lat");
   var endY = el.data("longi");
-  var scrollPercentage = (scroll-1500) / 500;
+  var scrollPercentage = (scroll-1500) / 300;
   var currentX = (endX - originX) * scrollPercentage;
   var currentY = (endY - originY) * scrollPercentage;
               // we have a start X and Y --> we need to store this
@@ -435,7 +435,7 @@ function makeMap(el, scroll) {
               var scrollPercentage = (scroll-1100) / 300;
               
               var endX = 400;
-              var endY = 1300;
+              var endY = 1600;
               //console.log("Ends" + endY);
               //console.log("ScrollPercentage" + scrollPercentage);
               var currentX = (endX - originX) * scrollPercentage;
@@ -1994,8 +1994,10 @@ function makeMap(el, scroll) {
       loc[1456] = ['1541.7856', '445.34027'];
       loc[1457] = ['1599.0775', '632.0392'];
       loc[1458] = ['1523.5935', '425.8176'];
+
     </script>
 
+    <div id="chart_div"> PPP</div>
 
   </body>
 
