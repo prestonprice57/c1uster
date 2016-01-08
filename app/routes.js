@@ -16,20 +16,55 @@ module.exports = function(app) {
 		
 	//}); 
 
-	app.get('/cluster', function(req, res) {
+	app.post('/cluster', function(req, res) {
+		var queryData = req.body;
 		console.log("Cluster is running");
+		console.log("THIS IS THE DATA");
+		console.log(queryData["customerInfo"]["age"]);
+		console.log("---");
 		console.log("Executing Python");
-		
-		// var sys = require('sys')
-		// var exec = require('child_process').exec;
-		// var child;
-		// // executes `pwd`
-		require('child_process').execSync("python clustering.py 0 3 1 2 3", function (error, stdout, stderr) {
+		var arg1 = "3";
+		var args = "";
+		if(queryData["customerInfo"]["type"] == true) {
+			arg1 = arg1 + "3";
+		} else if(queryData["customerInfo"]["common"] == true) {
+			arg1 = arg1 + "2";
+		} else if(queryData["customerInfo"]["ownership"] == true) {
+			arg1 = arg1 + "1";
+		} else if(queryData["customerInfo"]["limit"] == true) {
+			arg1 = arg1 + "0";
+		}
+
+		if(queryData["customerInfo"]["age"] == true) {
+			args = args + " 1";
+		}
+		if(queryData["customerInfo"]["average"] == true) {
+			args = args + " 2";
+		}
+		if(queryData["customerInfo"]["degree"] == true) {
+			args = args + " 3";
+		}
+		if(queryData["customerInfo"]["gender"] == true) {
+			args = args + " 4";
+		}
+		if(queryData["customerInfo"]["income"] == true) {
+			args = args + " 5";
+		}
+		if(queryData["customerInfo"]["marital"] == true) {
+			args = args + " 6";
+		}
+		if(queryData["customerInfo"]["professional"] == true) {
+			args = args + " 7";
+		}
+
+		console.log(arg1);
+		console.log(args);
+
+		require('child_process').execSync("python clustering.py 0 " + arg1 + args, function (error, stdout, stderr) {
 			console.log(stdout);
 		  if (error !== null) {
 		  }
 		});
-		console.log("Python code complete")
-		res.sendfile('./public/index.html');
+		console.log("Python code complete");
 	});
 };

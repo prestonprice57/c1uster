@@ -3,7 +3,7 @@ body {
 }
 
 r {
-    color: red;
+    color: #d03027;
     padding-bottom: 10px;
 }
 .navbar-inverse {
@@ -81,7 +81,7 @@ r {
     padding-bottom: 30px;
 }
 
-.col-md-6 {
+.col-md-6 .col-button {
     text-align: center;
 }
 
