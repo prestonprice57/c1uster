@@ -147,12 +147,16 @@
 
           bucketPlacement(bucketSize);
 
-          if (notCleared) {
-            
-            clearData();
-            notCleared = false;
+          paper.forEach(function (el) {
 
-            }
+          var tString = updateBarChart(el, scroll);
+
+          el.transform(tString);
+
+          //console.log(tString);
+          //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
+          
+          });
             
           }
           
@@ -354,6 +358,9 @@
 
               el.data("barX", endX);
               el.data("barY", endY);
+
+              el.data("pathX", currentX);
+              el.data("pathY", currentY);
 
               console.log("BAR X IS : " + el.data("barX"));
 
