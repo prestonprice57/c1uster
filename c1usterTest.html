@@ -23,6 +23,7 @@
        $(document).ready(function() {
           //initMap();
           drawPlot();
+          parseJsonTest();
       });
 
        bucketSize = 0;
@@ -68,6 +69,14 @@
        }
        */
 
+function parseJsonTest() {
+  $.getJSON("test.json", function(json) {
+    console.log(json); // this will show the info it in firebug console
+    });
+
+
+
+}
 function initMap() {
   
   var geocoder = new google.maps.Geocoder();
