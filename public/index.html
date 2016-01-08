@@ -195,11 +195,13 @@ function onHover() {
           } else {
             console.log("The color is: " + el.data('color'));
             el.attr('stroke',el.data('color'));
-            el.attr('stroke-width','5');
+            el.attr('stroke-width','3');
             el.attr('stroke-opacity', '1.0');
           }
               
         });
+        this.attr('stroke-width', '3');
+        this.attr('stroke', '#fe000c');
 
         //paper.text(this.data("originX"), this.data("originY"), str);
                  
@@ -215,6 +217,52 @@ function onHover() {
         });
       }
 
+      function onClick() {
+        console.log("JUST CLICKED THIS THING");
+        var curColor = this.data("color");
+
+        var originX = this.getBBox().x;
+        var originY = this.getBBox().y;
+        console.log("curColor is: " + curColor);
+        paper.forEach(function (el) {
+
+
+
+          if (el.data("color") == curColor) {
+            var endX = el.getBBox().x;
+            var endY = el.getBBox().y;
+
+            paper.forEach(function (el2) {
+              if (el2.data("color") == curColor) {
+
+                console.log("we are drawing a connection!");
+
+                drawConnectingPath(el2.getBBox().x, el2.getBBox().y, endX, endY, curColor);
+
+
+              } else {
+                el2.attr('fill-opacity', '0.2');
+              }
+            });
+            
+
+          }
+
+        });
+
+
+
+      }
+
+      function drawConnectingPath(originX, originY, endX, endY, color) {
+
+        var travelled = "M" + originX +"," + originY + "L" + endX + "," + endY;
+        console.log("the travelled path is: " + travelled);
+        var travelPath = paper.path(travelled).attr({'opacity':'0.15', 'stroke-width':'1', 'stroke':color});
+
+
+
+      }
 
       function drawPlot() {
             // This is the base paper. Width will be 1000 px and Height will be 3000 px
@@ -226,9 +274,9 @@ function onHover() {
             //var bigCircle = paper.circle(500, 1000, 40);
 
 
-            var colors = ['#8E44AD', '#446Cb3', '#81cfe0', '#2C3E50', '#22A7F0', '#67809F', '#26A65B'];
+            var colors = ['#CF000F', '#663399', '#22A7F0', '#00B16A', '#F39C12', '#67809F', '#26A65B'];
 
-            for (var i = 1; i <coordinates.length; i++) {
+            for (var i = 1; i <coordinates.length; i = i + 3) {
 
 
 
@@ -242,10 +290,10 @@ function onHover() {
               var x = coordinates[i]["x"] * 10 + 400;
               console.log("The x value is: " + x);
 
-              var y = coordinates[i]["y"] * 5 + 230;
+              var y = coordinates[i]["y"] * 5 + 180;
 
 
-              var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0'});
+              var circle = paper.circle(x,y, 2).attr({'fill':colors[color], 'stroke-opacity' : '0', 'stroke-width':'3'});
               //var circle = paper.circle(x,y, 2).attr({'fill':'white', 'stroke-opacity' : '0'});
               circle.id = i;
               circle.name = colors[color];
@@ -255,7 +303,24 @@ function onHover() {
               circle.data("originY", y);
               circle.data("color", colors[color]);
 
-              var latLongPicker = Math.round(1455 * Math.random());
+              // set one will be 0 to 600
+              // set two will be 200 to 800
+              // set three will be 400 to 1000
+              // set four will be 600 to 1200
+              // set five will be 800 to 1400
+              for (var m = 0; m < 5; m++) {
+                console.log("The color valueis : " + color);
+                if (color == m) {
+                  //var upperBound = (m+1) *200 + 600;
+                  var lowerBound = (m) * 200;
+
+                  
+
+                  var latLongPicker = Math.round(600 * Math.random()) + lowerBound;
+                  console.log("The index  for latlong pick is: " + latLongPicker);
+                }
+              }
+              //var latLongPicker = Math.round(1455 * Math.random());
               var lat = 1600 - parseFloat(loc[latLongPicker][0]);
               var lon = 2150 - parseFloat(loc[latLongPicker][1]);
 
@@ -465,7 +530,7 @@ function makeMap(el, scroll) {
                 circle.data("longi", barPoints[i].longi);
                 circle.mouseover(onHover);
                 circle.mouseout(onOut);
-
+                circle.click(onClick);
                 console.log("Just created a new circle!");
 
               }
