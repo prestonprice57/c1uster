@@ -147,55 +147,15 @@
 
           bucketPlacement(bucketSize);
 
-          if (notCleared && !repopulated) {
-            paper.forEach(function (el) {
-
-            var mString = updateBarChart(el, 800);
-            el.transform(mString);
-            //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
-            console.log("The bar X is: " + el.data('barX'));
-            var k = new barPoint(el.data('barX'), el.data('barY'), 0, 0, el.data('color'));
-            barPoints.push(k);
-          });
-            paper.clear();
-
-
+          if (notCleared) {
+            
+            clearData();
             notCleared = false;
-
-          }
-          if (!repopulated) {
-
-            for (var i = 0; i < barPoints.length; i++) {
-              console.log(barPoints[i].x);
-              console.log(barPoints[i].color);
-              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
-              circle.data("x", barPoints[i].x);
-              circle.data("y", barPoints[i].y);
-              circle.data("color", barPoints[i].color);
-
-              console.log("Just created a new circle!");
-
-
-
-            }
-            repopulated = true;
-
-              var circle = paper.circle(barPoints[i].x,barPoints[i].y, 2).attr({'fill':barPoints[i].color, 'stroke-opacity' : '0'});
-
-
-
 
             }
             
           }
           
-
-          
-
-
-
-        
-        } 
 
         else if (scroll >= 1100 && scroll < 1400) {
           //bucketPlacement(bucketSize);
@@ -231,8 +191,9 @@
       
 
       function clearData() {
-        paper.forEach(function (el) {
+        barPoints = [];
 
+        paper.forEach(function (el) {
             var mString = updateBarChart(el, 800);
             el.transform(mString);
             //console.log("800-1100: The x value of the transformed thing is: " + el.attr('x') + " and y is : " + el.attr('y'));
@@ -252,7 +213,7 @@
 
               console.log("Just created a new circle!");
             
-
+            }
       }
 
       function comeTogether(el, scroll) {
