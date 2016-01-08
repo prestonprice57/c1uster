@@ -199,6 +199,8 @@ for rowNumber in range(len(X)):
 	x = X[rowNumber][0]
 	y = X[rowNumber][1]
 	classification = cluster_labels[rowNumber]
+	customerID = matrixOfData[rowNumber][0]
+	print(dictOfAllData[customerID] )
 	final.append({"x": str(x), 'y': str(y), 'category': str(classification )})
 
 
