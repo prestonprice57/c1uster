@@ -86,26 +86,23 @@
             <div class="col-md-6">
              <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.age"> Age
            </div>
-           <div class="col-md-6">
-             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.weight"> Weight
+            <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.average"> Average Time to Pay Bill
            </div>
-           <div class="col-md-6">
+                                 <div class="col-md-6">
              <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.gender"> Gender
            </div>
-           <div class="col-md-6">
+                      <div class="col-md-6">
              <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.degree"> Degree Status
            </div>
-           <div class="col-md-6">
+                      <div class="col-md-6">
              <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.income"> Income Level
            </div>
-           <div class="col-md-6">
-             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.professional"> Professional Status
-           </div>
-           <div class="col-md-6">
+                      <div class="col-md-6">
              <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.marital"> Marital Status
            </div>
-           <div class="col-md-6">
-             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.average"> Average Time to Pay Bill
+                      <div class="col-md-6">
+             <input type="checkbox" name="customerInfo" ng-model="customerData.customerInfo.professional"> Professional Status
            </div>
            <div class="col-md-12">
             <hr>
@@ -114,26 +111,29 @@
            <p>Dependant Variables:</p>
          </div>
          <div class="col-md-6">
-           <input type="radio" name="gender" value="male"> Male<br>
+           <input type="radio" name="customerInfo" ng-model="customerData.customerInfo.common"> Most Common Transaction Type<br>
          </div>
          <div class="col-md-6">
-           <input type="radio" name="gender" value="male"> Male<br>
+           <input type="radio" name="customerInfo" ng-model="customerData.customerInfo.type"> Card Type<br>
          </div>
          <div class="col-md-6">
-           <input type="radio" name="gender" value="male"> Male<br>
+           <input type="radio" name="customerInfo" ng-model="customerData.customerInfo.limit"> Card Limit<br>
          </div>
          <div class="col-md-6">
-           <input type="radio" name="gender" value="male"> Male<br>
+           <input type="radio" name="customerInfo" ng-model="customerData.customerInfo.ownership"> House Ownernship<br>
          </div>
          <div class="col-md-12">
           <hr>
         </div>
         <div class="col-md-6 col-button">
-         <button type="button" ng-click="submit()" class="btn btn-primary">Submit</button>
+         <button type="button" data-dismiss="modal" ng-click="submit()" class="btn btn-primary">Submit</button>
        </div>
        <div class="col-md-6 col-button">
          <button type="button" data-dismiss="modal" class="btn .btn-default">Close</button>
        </div>
+        <pre>
+          {{ customerData }}
+        </pre>
      </div>
    </div>
  </div>
