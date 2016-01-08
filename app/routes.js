@@ -16,4 +16,8 @@ module.exports = function(app) {
 	app.get('/jsontest', function(req, res) {
 		res.sendfile('./public/sampleJson.py');
 	}); 
+
+	app.post('/cluster', function(req, res) {
+		console.log(req.body);
+	});
 };

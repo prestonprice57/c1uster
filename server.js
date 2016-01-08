@@ -35,11 +35,11 @@ console.log('Magic happens on port ' + port);
   
 var pyshell = new PythonShell('sample.py', {mode : 'text', args: []});
 
- console.log("hi1");
+console.log("hi1");
 pyshell.on('message', function (message) {
-	  console.log(message);  
-	  console.log("hi0");
-	});		// shoutout to the user*/
+    console.log(message);  
+    console.log("hi0");
+  });   // shoutout to the user*/
   console.log("hi2");
 
 pyshell.end(function (err) {
